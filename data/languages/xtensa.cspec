@@ -55,17 +55,21 @@
         <pentry minsize="1" maxsize="4" extension="inttype">
           <register name="a2"/>
         </pentry>
+        <pentry minsize="1" maxsize="4" extension="inttype">
+          <register name="a3"/>
+        </pentry>
+        <pentry minsize="1" maxsize="4" extension="inttype">
+          <register name="a4"/>
+        </pentry>
+        <pentry minsize="1" maxsize="4" extension="inttype">
+          <register name="a5"/>
+        </pentry>
     </output>
     <returnaddress>
         <register name="a0"/>
     </returnaddress>
     <unaffected>
-      <register name="a0"/>
       <register name="a1"/>
-      <register name="a8"/>
-      <register name="a9"/>
-      <register name="a10"/>
-      <register name="a11"/>
       <register name="a12"/>
       <register name="a13"/>
       <register name="a14"/>
