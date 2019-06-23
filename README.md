@@ -16,8 +16,7 @@ Or download a pre-built release and unzip it to `Ghidra/Processors`.
 
 # Bugs
 
-* Some calculations are wrong, causing Ghidra to miscalculate a jump target.
-* Probably a lot of others in instructions I did not yet happen to encouter. Pull requests
+* Probably a lot in instructions I did not yet happen to encouter. Pull requests
   appreciated.
 
 # TODO
