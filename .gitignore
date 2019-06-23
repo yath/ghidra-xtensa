@@ -1,0 +1,5 @@
+.*.swp
+xtensa.sla
+data/manuals/
+release/
+release.zip
