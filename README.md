@@ -21,7 +21,6 @@ Or download a pre-built release and unzip it to `Ghidra/Processors`.
 
 # TODO
 
-* An `.opinion` file for autodetection
 * Windowed Register Option
 * MAC16 Option
 * Loop Option
