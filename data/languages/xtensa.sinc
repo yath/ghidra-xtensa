@@ -147,8 +147,8 @@ s16_16.23_8.11: tmp is u4_8.11 & u8_16.23 [
 
 # An “asymmetric” immediate from -32..95, used by MOVI.N.
 n_s8_12.15_4.6_asymm: tmp is n_s3_4.6 & n_s4_12.15 [
-    tmp = ((((n_s3_4.6 >> 2) & 1) & ((n_s3_4.6 >> 3) & 1)) << 7) | # sign
-           (n_s3_4.6 << 4) | n_s4_12.15;
+    tmp = ((((n_s3_4.6 & 7) << 4) | (n_s4_12.15 & 15)) |
+          ((((n_s3_4.6 >> 2) & 1) & ((n_s3_4.6 >> 1) & 1)) << 7));
 ] { export *[const]:1 tmp; }
 
 # Immediates shifted or with offset.
