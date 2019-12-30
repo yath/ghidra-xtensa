@@ -5,7 +5,7 @@
 # Installation
 
 ```
-$ cd ghidra_9.0.X/Ghidra/Processors
+$ cd ghidra_9.1.X/Ghidra/Processors
 $ git clone https://github.com/yath/ghidra-xtensa Xtensa
 $ cd Xtensa
 $ make
