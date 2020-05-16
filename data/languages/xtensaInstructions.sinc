@@ -314,45 +314,6 @@ macro extract_bit(val, bit, result) {
     call [dst];
 }
 
-# ENTRY - Subroutine Entry, pg. 340.
-:entry as, u15_12.23_sb3 is u15_12.23_sb3 & as & u2_6.7 = 0b00 & u2_4.5 = 0b11 & op0 = 0b0110 {
-    #as=as-u15_12.23_sb3;
-}
-
-#    if (u15_12.23_sb3 ==4)
-#        goto <shift4>;
-#    if (u15_12.23_sb3 ==8)
-#        goto <shift8>;
-#    if (u15_12.23_sb3 ==12)
-#        goto <shift12>;
-#    <shift4>
-#        a2=a6;
-#        a3=a7;
-#        a4=a8;
-#        a5=a9;
-#        a6=a10;
-#        a7=a11;
-#        a8=a12;
-#        a9=a13;
-#        a10=a14;
-#        a11=a15;
-#        goto <end>;
-#    <shift8>
-#        a2=a10;
-#        a3=a11;
-#        a4=a12;
-#        a5=a13;
-#        a6=a14;
-#        a7=a15;
-#        goto <end>;
-#    <shift12>
-#        a2=a14;
-#        a3=a15;
-#    <end>
-
-
-
-
 # CEIL.S - Ceiling Single to Fixed, pg. 311.
 :ceil.s ar, fs, u4_4.7 is op2 = 0b1011 & op1 = 0b1010 & ar & fs & u4_4.7 & op0 = 0 {
     local scale:4 = int2float(1:1 << u4_4.7:1);
@@ -868,7 +829,21 @@ macro extract_bit(val, bit, result) {
 
 # NSAU - Normalization Shift Amount Unsigned, pg. 462. (Count leading zeros)
 :nsau at, as is op2 = 0b0100 & op1 = 0 & ar = 0b1111 & as & at & op0 = 0 {
-    at = nsau(as);
+    local z4 = as[16,16] == 0;
+
+    local t3 = zext(z4)*as[0,16] + zext(!z4)*as[16,16];
+    local z3 = t3[8,8] == 0;
+
+    local t2 = (z3)*t3[0,8] + (!z3)*t3[8,8];
+    local z2 = t2[4,4] == 0;
+
+    local t1 = (z2)*t2[0,4] + (!z2)*t2[4,4];
+    local z1 = t1[2,2] == 0;
+
+    local z0 = (z1)*(t1[1,1] == 0) + (!z1)*(t1[3,1] == 0);
+    local all0 = as == 0;
+
+    at = zext((all0)*32 + (!all0)*(z4<<4 | z3<<3 | z2<<2 | z1<<1 | z0));
 }
 
 # OEQ.S - Compare Single Equal, pg. 463.
@@ -1108,13 +1083,13 @@ macro extract_bit(val, bit, result) {
 
 # SLL - Shift Left Logical, pg. 524.
 :sll ar, as is op2 = 0b1010 & op1 = 0b0001 & ar & as & at = 0 & op0 = 0 {
-    local sa:1 = 32 - (sar & 0xf); # XXX check this
+    local sa:1 = 32 - sar;
     ar = as << sa;
 }
 
 # SLLI - Shift Left Logical Immediate, pg. 525.
 :slli ar, as, u5_4.7_20 is u3_21.23 = 0 & u5_4.7_20 & op1 = 0b0001 & ar & as & op0 = 0 {
-    local sa:1 = 32 - u5_4.7_20; # XXX check this
+    local sa:1 = 32 - u5_4.7_20;
     ar = as << sa;
 }
 
@@ -1179,12 +1154,12 @@ macro extract_bit(val, bit, result) {
 
 # SSL - Set Shift Amount for Left Shift, pg. 538.
 :ssl as is op2 = 0b0100 & op1 = 0 & ar = 0b0001 & as & at = 0 & op0 = 0 {
-    sar = 32 - (as:1 & 0xf);
+    sar = 32 - (as:1 & 0x1f);
 }
 
 # SSR - Set Shift Amount for Right Shift, pg. 539.
 :ssr as is op2 = 0b0100 & op1 = 0 & ar = 0 & as & at = 0 & op0 = 0 {
-    sar = (as:1 & 0xf);
+    sar = (as:1 & 0x1f);
 }
 
 # SSX - Store Singe Indexed, pg. 540.
@@ -1241,9 +1216,10 @@ macro extract_bit(val, bit, result) {
     br = nan(fs) || nan(ft) || fs f== ft;
 }
 
-# UFLOAT.S - Convert Unsigned Fixed to Single, pg. 550. XXX: How is this different from float.as?
+# UFLOAT.S - Convert Unsigned Fixed to Single, pg. 550.
 :ufloat.s fr, as, u4_4.7 is op2 = 0b1101 & op1 = 0b1010 & fr & as & u4_4.7 & op0 = 0 {
-    local f = int2float(as);
+    local tmp:8 = zext(as);
+    local f = int2float(tmp);
     local d = int2float(1:2 << u4_4.7:2);
     fr = d f/ f;
 }
@@ -1265,10 +1241,14 @@ macro extract_bit(val, bit, result) {
     br = nan(fs) || nan(ft);
 }
 
-# UTRUNC.S - Truncate Single to Fixed Unsigned, pg. 555. FIXME: difference to trunc.s?
+# UTRUNC.S - Truncate Single to Fixed Unsigned, pg. 555.
 :utrunc.s ar, fs, u4_4.7 is op2 = 0b1110 & op1 = 0b1010 & ar & fs & u4_4.7 & op0 = 0 {
     local scale:4 = int2float(1:2 << u4_4.7:2);
-    ar = trunc(fs f* scale);
+    local tmp:8 = trunc(fs f* scale);
+    local posof = nan(fs) || (tmp >> 16) != 0;
+    local negof = tmp s< 0;
+    local noof  = !posof && !negof;
+    ar = zext(posof)*0xffffffff + zext(negof)*0x80000000 + zext(noof)*tmp:4;
 }
 
 # WAITI - Wait Interrupt, pg. 556.
@@ -1317,6 +1297,6 @@ macro extract_bit(val, bit, result) {
 }
 
 # XSR - Exchange Special Register, pg. 566.
-:xsr at, u8_8.15 is op2 = 0b1110 & op1 = 0b0001 & u8_8.15 & at & op0 = 0 {
+:xsr at, u8_8.15 is op2 = 0b0110 & op1 = 0b0001 & u8_8.15 & at & op0 = 0 {
     at = xsr(u8_8.15:1, at);
 }

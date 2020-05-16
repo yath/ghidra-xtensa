@@ -67,7 +67,7 @@ define token insn(24)
     u1_12       = (12,12)
     u4_8.11     =  (8,11)
     u8_4.11     =  (4,11)
-    # s4_8.11     =  (8,11)  signed
+    s4_8.11     =  (8,11)  signed
     u2_6.7      =  (6,7)
     u3_5.7      =  (5,7)
     u4_4.7      =  (4,7)
@@ -138,11 +138,8 @@ u5_4.7_12:  tmp is u1_12 & u4_4.7   [ tmp = (u1_12 << 4) | u4_4.7;  ] { export *
 u5_8.11_4:  tmp is u1_4 & u4_8.11   [ tmp = (u1_4  << 4) | u4_8.11; ] { export *[const]:1 tmp; }
 
 # Signed 12-bit (extended to 16) immediate, used by MOVI.
-s16_16.23_8.11: tmp is u4_8.11 & u8_16.23 [
-   # FIXME: This table, and the fields used, should be signed, but using s4_8.11 and s8_16.23
-   # somehow confuses Ghidra.
-   tmp = (0xf000 * (u4_8.11 >> 3)) | # Sign-extend.
-           (u4_8.11 << 8) | u8_16.23;
+s16_16.23_8.11: tmp is s4_8.11 & u8_16.23 [
+   tmp = (s4_8.11 << 8) | u8_16.23;
 ] { export *[const]:2 tmp; }
 
 # An “asymmetric” immediate from -32..95, used by MOVI.N.
@@ -167,25 +164,10 @@ n_u6_12.15_sb2: tmp is n_u4_12.15  [ tmp = n_u4_12.15 << 2; ] { export *[const]:
 s5_12.15_oex:  tmp is u4_12.15      [ tmp = (2 << u4_12.15) * -1; ] { export *[const]:2 tmp; }
 
 # Some 4-bit immediates with mappings that can’t be (easily) expressed in a single disassembly action.
-# FIXME: “foo: tmp is u4_foo [ tmp = u4_foo; ]” doesn’t work when a more special constructor exists.
 
 # n_u4_4.7 with 0 being -1, used by ADDI.N.
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 0  [ tmp = -1; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 1  [ tmp =  1; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 2  [ tmp =  2; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 3  [ tmp =  3; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 4  [ tmp =  4; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 5  [ tmp =  5; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 6  [ tmp =  6; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 7  [ tmp =  7; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 8  [ tmp =  8; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 9  [ tmp =  9; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 10 [ tmp = 10; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 11 [ tmp = 11; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 12 [ tmp = 12; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 13 [ tmp = 13; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 14 [ tmp = 14; ] { export *[const]:4 tmp; }
-n_s4_4.7_nozero: tmp is n_u4_4.7 = 15 [ tmp = 15; ] { export *[const]:4 tmp; }
+n_s4_4.7_nozero: tmp is n_u4_4.7 = 0  [ tmp = -1;         ] { export *[const]:4 tmp; }
+n_s4_4.7_nozero: tmp is n_u4_4.7      [ tmp = n_u4_4.7+0; ] { export *[const]:4 tmp; }
 
 # B4CONST(ar) (Branch Immediate) encodings, pg. 41 f.
 r_b4const: tmp is ar = 0         [ tmp = 0xffffffff; ] { export *[const]:4 tmp; }

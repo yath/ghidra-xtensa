@@ -34,10 +34,44 @@
 }
 
 # ENTRY - Subroutine Entry, pg. 340.
-#:entry as, u15_12.23_sb3 is u15_12.23_sb3 & as & u2_6.7 = 0b00 & u2_4.5 = 0b11 & op0 = 0b0110 {
+:entry as, u15_12.23_sb3 is u15_12.23_sb3 & as & u2_6.7 = 0b00 & u2_4.5 = 0b11 & op0 = 0b0110 {
 # as normally a1
-#    #a1=a1-u15_12.23_sb3;
-#}
+#    a1=a1-u15_12.23_sb3;
+}
+
+#    if (u15_12.23_sb3 ==4)
+#        goto <shift4>;
+#    if (u15_12.23_sb3 ==8)
+#        goto <shift8>;
+#    if (u15_12.23_sb3 ==12)
+#        goto <shift12>;
+#    <shift4>
+#        a2=a6;
+#        a3=a7;
+#        a4=a8;
+#        a5=a9;
+#        a6=a10;
+#        a7=a11;
+#        a8=a12;
+#        a9=a13;
+#        a10=a14;
+#        a11=a15;
+#        goto <end>;
+#    <shift8>
+#        a2=a10;
+#        a3=a11;
+#        a4=a12;
+#        a5=a13;
+#        a6=a14;
+#        a7=a15;
+#        goto <end>;
+#    <shift12>
+#        a2=a14;
+#        a3=a15;
+#    <end>
+
+
+
 
 
 # CALLX4 - Call Register, Rotate Window by 4, pg. 305.
