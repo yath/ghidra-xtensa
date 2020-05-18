@@ -117,11 +117,12 @@
 
 # RETW - Windowed Return, pg. 480.
 :retw is op2 = 0 & ar = 0 & as = 0 & at = 0 & u2_18.19 = 0b10 & u2_16.17 = 0b01 & op0 = 0 {
-
+    return [a0];
 }
 
 # RETW.N - Narrow Windowed Return, pg. 482.
 :retw.n is n_ar = 0b1111 & n_as = 0 & n_at = 0b0001 & n_op0 = 0b1101 {
+     return [a0];
 }
 
 # ROTW - Rotate Window, pg. 496.
