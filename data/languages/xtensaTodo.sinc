@@ -36,7 +36,7 @@
 # ENTRY - Subroutine Entry, pg. 340.
 :entry as, u15_12.23_sb3 is u15_12.23_sb3 & as & u2_6.7 = 0b00 & u2_4.5 = 0b11 & op0 = 0b0110 {
 # as normally a1
-#    a1=a1-u15_12.23_sb3;
+    as = as - u15_12.23_sb3;
 }
 
 #    if (u15_12.23_sb3 ==4)
@@ -126,7 +126,9 @@
 }
 
 # ROTW - Rotate Window, pg. 496.
-:rotw s4_4.7 is op2 = 0b0100 & op1 = 0 & ar = 0b1000 & as = 0 & s4_4.7 & op0 = 0 unimpl
+:rotw s4_4.7 is op2 = 0b0100 & op1 = 0 & ar = 0b1000 & as = 0 & s4_4.7 & op0 = 0 {
+
+}
 
 # S32E - Store 32-bit for Window Exceptions, pg. 508.
 :s32e at, as, s5_12.15_oex is op2 = 0b0100 & op1 = 0b1001 & s5_12.15_oex & as & at & op0 = 0 unimpl
