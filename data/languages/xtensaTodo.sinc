@@ -122,7 +122,13 @@
 
 # RETW.N - Narrow Windowed Return, pg. 482.
 :retw.n is n_ar = 0b1111 & n_as = 0 & n_at = 0b0001 & n_op0 = 0b1101 {
-     return [a0];
+    a10=a2;
+    a11=a3;
+    a12=a4;
+    a13=a5;
+    a14=a6;
+    a15=a7;    
+    return [a0];
 }
 
 # ROTW - Rotate Window, pg. 496.

@@ -3,6 +3,7 @@ define alignment=1;
 
 define space ram        type=ram_space      size=4  default;
 define space register   type=register_space size=4;
+define space special_register type=ram_space size=4;
 
 # Address registers (AR).
 define register offset=0x0000 size=4 [
@@ -27,6 +28,32 @@ define register offset=0x1000 size=4 [ pc ];
 # Shift amount register. (TODO: other special registers)
 define register offset=0x2000 size=1 [ sar ];
 
+
+#not all registers are 32Bit but for sake of simplicity they are here
+define special_register offset=0 size=4 [ LBEG LEND LCOUNT SAR BR LITBASE ];
+define special_register offset=48 size=4 [ SCOMPARE1 ];
+define special_register offset=64 size=4 [ ACCLO ACCHI ];
+define special_register offset=128 size=4 [ M0 M1 M2 M3 ];
+define special_register offset=288 size=4 [ WindowBase WindowStart ];
+define special_register offset=332 size=4 [ PTEVADDR ];
+define special_register offset=356 size=4 [ MMID RASID ITLBCFG DTLBCFG ];
+define special_register offset=384 size=4 [ IBREAKENABLE ];
+define special_register offset=392 size=4 [ CACHEATTR ATOMCTL ];
+define special_register offset=416 size=4 [ DDR ];
+define special_register offset=424 size=4 [ MEPC MEPS MESAVE MESR MECR MEVADDR ];
+define special_register offset=512 size=4 [ IBREAKA0 IBREAKA1 ];
+define special_register offset=576 size=4 [ DBREAKA0 DBREAKA1 ];
+define special_register offset=640 size=4 [ DBREAKC0 DBREAKC1 ];
+define special_register offset=708 size=4 [ EPC1 EPC2 EPC3 EPC4 EPC5 EPC6 EPC7 ];
+define special_register offset=768 size=4 [ DEPC ];
+define special_register offset=776 size=4 [ EPS2 EPS3 EPS4 EPS5 EPS6 EPS7 ];
+define special_register offset=836 size=4 [ EXCSAVE1 EXCSAVE2 EXCSAVE3 EXCSAVE4 EXCSAVE5 EXCSAVE6 EXCSAVE7 ];
+define special_register offset=896 size=4 [ CPENABLE ];
+define special_register offset=900 size=4 [ INTERRUPT INTSET INTCLEAR INTENABLE ];# assuming it's a typo in the manual and INTERRUPT has number 225
+define special_register offset=920 size=4 [ PS VECBASE EXCCAUSE DEBUGCAUSE CCOUNT PRID ICOUNT ICOUNTLEVEL EXCVADDR ];
+define special_register offset=960 size=4 [ CCOMPARE0 CCOMPARE1 CCOMPARE2 ];
+define special_register offset=976 size=4 [ MISC0 MISC1 MISC2 MISC3 ];
+
 # Regular 24-bit instruction.
 define token insn(24)
     # Named opcode/register fields.
@@ -37,6 +64,7 @@ define token insn(24)
     as     = (8,11)
     fs     = (8,11)
     bs     = (8,11)
+    sr     = (8,15)
     at     = (4,7)
     ft     = (4,7)
     bt     = (4,7)
@@ -105,6 +133,9 @@ attach variables [ fr fs ft ] [
 attach variables [ br bs bt ] [
     b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 b13 b14 b15
 ];
+
+attach variables [ sr ] [ LBEG LEND LCOUNT SAR BR LITBASE _ _ _ _ _ _ SCOMPARE1 _ _ _ ACCLO ACCHI _ _ _ _ _ _ _ _ _ _ _ _ _ _ M0 M1 M2 M3 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ WindowBase WindowStart _ _ _ _ _ _ _ _ _ PTEVADDR _ _ _ _ _  MMID RASID ITLBCFG DTLBCFG _ _ _ IBREAKENABLE _ CACHEATTR ATOMCTL _ _ _ _ DDR _ MEPC MEPS MESAVE MESR MECR MEVADDR _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ IBREAKA0 IBREAKA1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ DBREAKA0 DBREAKA1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ DBREAKC0 DBREAKC1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ EPC1 EPC2 EPC3 EPC4 EPC5 EPC6 EPC7 _ _ _ _ _ _ _ _ DEPC _ EPS2 EPS3 EPS4 EPS5 EPS6 EPS7 _ _ _ _ _ _ _ _ _ EXCSAVE1 EXCSAVE2 EXCSAVE3 EXCSAVE4 EXCSAVE5 EXCSAVE6 EXCSAVE7 _ _ _ _ _ _ _ _ CPENABLE INTERRUPT INTSET INTCLEAR INTENABLE _ PS VECBASE EXCCAUSE DEBUGCAUSE CCOUNT PRID ICOUNT ICOUNTLEVEL EXCVADDR _ CCOMPARE0 CCOMPARE1 CCOMPARE2 _ MISC0 MISC1 MISC2 MISC3 _ _ _ _ _ _ _ _ ];
+
 
 # Various 32-bit pointers relative to PC. Any operands that are split across non-consecutive
 # bits are named foo_LL.LM_ML.MM, where LL is the least significant bits of the least
