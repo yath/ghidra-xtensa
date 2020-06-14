@@ -122,6 +122,14 @@ define token narrowinsn(16)
 
 ;
 
+define token opbyte (8)
+	op0_8        = (0,7)
+;	
+
+define token opword (16)
+	op0_16        = (0,15)
+;
+
 attach variables [ ar as at n_ar n_as n_at ] [
     a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15
 ];

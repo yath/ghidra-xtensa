@@ -1306,3 +1306,11 @@ macro extract_bit(val, bit, result) {
 	#*[special_register]:4 sr = at;
 	#at = tmp;
 }
+
+:pad is op0_16=0x0 {
+}
+
+:pad is op0_8=0x0 {
+}
+
+
