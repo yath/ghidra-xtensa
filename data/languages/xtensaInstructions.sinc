@@ -1307,10 +1307,12 @@ macro extract_bit(val, bit, result) {
 	#at = tmp;
 }
 
-:pad is op0_16=0x0 {
-}
+# PAD, dummy
+#:pad is op0_16=0x0 {
+#}
 
-:pad is op0_8=0x0 {
-}
+# PAD, dummy
+#:pad is op0_8=0x0 {
+#}
 
 
