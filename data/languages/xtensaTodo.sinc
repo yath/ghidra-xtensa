@@ -1,3 +1,17 @@
+macro pushVal(val32) {
+    local addr:4 = a1;
+    a1 = a1 - 4;
+    *:4 addr = val32;
+}
+
+macro popVal(val32) {
+    local addr:4 = a1;
+    val32  =  *:4 addr;
+    a1 = a1 + 4;
+}
+
+
+
 ## Windowed Register Option ##
 
 # CALL4 - Call PC-relative, Rotate Window by 4, pg. 298.
@@ -14,6 +28,12 @@
 # CALL8 - Call PC-relative, Rotate Window by 8, pg. 300.
 :call8 srel_6.23_sb2 is srel_6.23_sb2 & u2_4.5 = 0b10 & op0 = 0b0101 {
     local dst = srel_6.23_sb2;
+    #s2=a2;
+    #s3=a3;
+    #s4=a4;
+    #s5=a5;
+    #s6=a6;
+    #s7=a7;
     a2=a10;
     a3=a11;
     a4=a12;
@@ -35,8 +55,10 @@
 
 # ENTRY - Subroutine Entry, pg. 340.
 :entry as, u15_12.23_sb3 is u15_12.23_sb3 & as & u2_6.7 = 0b00 & u2_4.5 = 0b11 & op0 = 0b0110 {
-    #local amn = sext(u15_12.23_sb3);
+    local amn = sext(u15_12.23_sb3);
     #as = as + amn;
+    WindowBase    = amn;
+    a1 = a1 - amn;
 }
 
 #    if (u15_12.23_sb3 ==4)
@@ -94,6 +116,12 @@
 # CALLX8 - Call Register, Rotate Window by 8, pg. 307.
 :callx8 as is op2 = 0 & op1 = 0 & ar = 0 & as & u2_6.7 = 0b11 & u2_4.5 = 0b10 & op0 = 0 {
     local dst = as;
+    #s2=a2;
+    #s3=a3;
+    #s4=a4;
+    #s5=a5;
+    #s6=a6;
+    #s7=a7;
     a2=a10;
     a3=a11;
     a4=a12;
@@ -123,6 +151,20 @@
 
 # RETW - Windowed Return, pg. 480.
 :retw is op2 = 0 & op1 = 0 & ar = 0 & as = 0 & u2_6.7 = 0b10 & u2_4.5 = 0b01 & op0 = 0 {
+# Assume call8
+    a10=a2;
+    a11=a3;
+    a12=a4;
+    a13=a5;
+    a14=a6;
+    a15=a7;
+    #a2=s2;
+    #a3=s3;
+    #a4=s4;
+    #a5=s5;
+    #a6=s6;
+    #a7=s7;                        
+    a1 = a1 + WindowBase;
     return [a0];
 }
 
@@ -133,7 +175,8 @@
     a12=a4;
     a13=a5;
     a14=a6;
-    a15=a7;    
+    a15=a7;
+    a1 = a1 + WindowBase;
     return [a0];
 }
 
