@@ -164,7 +164,7 @@ macro popVal(val32) {
     #a5=s5;
     #a6=s6;
     #a7=s7;                        
-    a1 = a1 + WindowBase;
+    #a1 = a1 + WindowBase;
     return [a0];
 }
 
@@ -176,7 +176,7 @@ macro popVal(val32) {
     a13=a5;
     a14=a6;
     a15=a7;
-    a1 = a1 + WindowBase;
+    #a1 = a1 + WindowBase;
     return [a0];
 }
 
