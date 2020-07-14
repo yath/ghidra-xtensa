@@ -11,6 +11,22 @@ macro popVal(val32) {
 }
 
 
+macro save() {
+      sa3 = a3;
+      sa4 = a4;
+      sa5 = a5;
+      sa6 = a6;
+      sa7 = a7;                  
+}
+
+macro restore() {
+      a3 = sa3;
+      a4 = sa4;
+      a5 = sa5;
+      a6 = sa6;
+      a7 = sa7;                  
+}
+
 
 ## Windowed Register Option ##
 
@@ -28,6 +44,7 @@ macro popVal(val32) {
 # CALL8 - Call PC-relative, Rotate Window by 8, pg. 300.
 :call8 srel_6.23_sb2 is srel_6.23_sb2 & u2_4.5 = 0b10 & op0 = 0b0101 {
     local dst = srel_6.23_sb2;
+    save();
     #s2=a2;
     #s3=a3;
     #s4=a4;
@@ -42,6 +59,7 @@ macro popVal(val32) {
     a7=a15;    
     a0 = inst_start + 3;
     call [dst];
+    restore();
 }
 
 # CALL12 - Call PC-relative, Rotate Window by 12, pg. 302.

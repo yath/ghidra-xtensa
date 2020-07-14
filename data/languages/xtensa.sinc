@@ -4,6 +4,13 @@ define alignment=1;
 define space ram        type=ram_space      size=4  default;
 define space register   type=register_space size=4;
 define space special_register type=ram_space size=4;
+define space save_register   type=ram_space size=4;
+
+# Address registers (AR).
+define save_register offset=0x0000 size=4 [
+    sa0 sa1 sa2 sa3 sa4 sa5 sa6 sa7 sa8 sa9 sa10 sa11 sa12 sa13 sa14 sa15
+];
+
 
 # Address registers (AR).
 define register offset=0x0000 size=4 [
