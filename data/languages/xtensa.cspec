@@ -30,22 +30,22 @@
     <prototype name="__stdcall" extrapop="0" stackshift="0">
       <input>
         <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="a2"/>
+          <register name="i2"/>
         </pentry>
         <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="a3"/>
+          <register name="i3"/>
         </pentry>
         <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="a4"/>
+          <register name="i4"/>
         </pentry>
         <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="a5"/>
+          <register name="i5"/>
         </pentry>
         <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="a6"/>
+          <register name="i6"/>
         </pentry>
         <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="a7"/>
+          <register name="i7"/>
         </pentry>
         <pentry minsize="1" maxsize="500" align="4">
           <addr offset="0" space="stack"/>
@@ -53,16 +53,16 @@
       </input>
       <output>
         <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="a2"/>
+          <register name="o2"/>
         </pentry>
         <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="a3"/>
+          <register name="o3"/>
         </pentry>
         <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="a4"/>
+          <register name="o4"/>
         </pentry>
         <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="a5"/>
+          <register name="o5"/>
         </pentry>
     </output>
     <returnaddress>
@@ -70,6 +70,15 @@
     </returnaddress>
     <unaffected>
       <register name="a1"/>
+      <register name="a3"/>
+      <register name="a4"/>
+      <register name="a5"/>
+      <register name="a6"/>
+      <register name="a7"/>
+      <register name="a8"/>
+      <register name="a9"/>
+      <register name="a10"/>
+      <register name="a11"/>                        
       <register name="a12"/>
       <register name="a13"/>
       <register name="a14"/>
