@@ -32,19 +32,19 @@ macro restore() {
 
 # CALL4 - Call PC-relative, Rotate Window by 4, pg. 298.
 :call4 srel_6.23_sb2 is srel_6.23_sb2 & u2_4.5 = 0b01 & op0 = 0b0101 {
-    local dst = srel_6.23_sb2;
+    #local dst = srel_6.23_sb2;
     i2=a6;
     i3=a7;
     i4=a8;
     i5=a9;
     a0 = inst_start + 3;
-    call [dst];
+    call srel_6.23_sb2;
     a6=o2;
 }
 
 # CALL8 - Call PC-relative, Rotate Window by 8, pg. 300.
 :call8 srel_6.23_sb2 is srel_6.23_sb2 & u2_4.5 = 0b10 & op0 = 0b0101 {
-    local dst = srel_6.23_sb2;
+    #local dst:4 = 
     i2=a10;
     i3=a11;
     i4=a12;
@@ -52,17 +52,17 @@ macro restore() {
     i6=a14;
     i7=a15;    
     a0 = inst_start + 3;
-    call [dst];
+    call srel_6.23_sb2;
     a10=o2;
 }
 
 # CALL12 - Call PC-relative, Rotate Window by 12, pg. 302.
 :call12 srel_6.23_sb2 is srel_6.23_sb2 & u2_4.5 = 0b11 & op0 = 0b0101 {
-    local dst = srel_6.23_sb2;
+    #local dst = srel_6.23_sb2;
     i2=a14;
     i3=a15;
     a0 = inst_start + 3;
-    call [dst];
+    call srel_6.23_sb2;
     a14=o2;
 }
 

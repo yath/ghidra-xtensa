@@ -303,7 +303,7 @@ macro extract_bit(val, bit, result) {
 
 # CALL0 - Non-windowed Call, pg. 297.
 :call0 srel_6.23_sb2 is srel_6.23_sb2 & u2_4.5 = 0 & op0 = 0b0101 {
-    local dst = srel_6.23_sb2;
+    #local dst = srel_6.23_sb2;
     i2 = a2;
     i3 = a3;
     i4 = a4;
@@ -311,7 +311,7 @@ macro extract_bit(val, bit, result) {
     i6 = a6;
     i7 = a7;     
     a0 = inst_start + 3;
-    call [dst];
+    call srel_6.23_sb2;
 }
 
 # CALLX0 - Non-windowed Call Register, pg. 304.
