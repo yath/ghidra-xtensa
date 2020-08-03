@@ -133,9 +133,6 @@ macro restore() {
 :retw is op2 = 0 & op1 = 0 & ar = 0 & as = 0 & u2_6.7 = 0b10 & u2_4.5 = 0b01 & op0 = 0 {
 # Assume call8
     o2=a2;
-    o3=a3;
-    o4=a4;
-    a10=a2;    
     a1 = a1 + WindowBase;
     return [a0];
 }
@@ -143,12 +140,6 @@ macro restore() {
 # RETW.N - Narrow Windowed Return, pg. 482.
 :retw.n is n_ar = 0b1111 & n_as = 0 & n_at = 0b0001 & n_op0 = 0b1101 {
     o2=a2;
-    o3=a3;
-    o4=a4;
-    o5=a5;
-    o6=a6;
-    o7=a7;
-    a10=a2;
     a1 = a1 + WindowBase;
     return [a0];
 }
