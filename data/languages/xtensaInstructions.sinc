@@ -312,7 +312,6 @@ macro extract_bit(val, bit, result) {
     i7 = a7;     
     a0 = inst_start + 3;
     call [dst];
-    a2=o2;
 }
 
 # CALLX0 - Non-windowed Call Register, pg. 304.
@@ -326,7 +325,6 @@ macro extract_bit(val, bit, result) {
     i7 = a7;      
     a0 = inst_start + 3;
     call [dst];
-    a2=o2;
 }
 
 # CEIL.S - Ceiling Single to Fixed, pg. 311.

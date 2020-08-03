@@ -150,7 +150,10 @@ macro restore() {
 }
 
 # S32E - Store 32-bit for Window Exceptions, pg. 508.
-:s32e at, as, s5_12.15_oex is op2 = 0b0100 & op1 = 0b1001 & s5_12.15_oex & as & at & op0 = 0 unimpl
+:s32e at, as, s5_12.15_oex is op2 = 0b0100 & op1 = 0b1001 & s5_12.15_oex & as & at & op0 = 0 {
+	#local vAddr:4 = as + s5_12.15_oex;
+	#*:4 vAddr = at;
+}
 
 
 ## MAC16 option ##
