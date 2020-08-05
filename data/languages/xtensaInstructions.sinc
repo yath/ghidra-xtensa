@@ -1020,7 +1020,9 @@ macro extract_bit(val, bit, result) {
 
 # RSR - Read Special Register, pg. 500.
 :rsr at, u8_8.15 is op0 = 0 & op1 = 0b0011 & u8_8.15 & at & op0 = 0 {
+    local src:4 =  zext(u8_8.15:1);
     at = rsr(u8_8.15:1);
+    at = *[special_register]:4 src;
 }
 
 # RSYNC - Register Read Synchronize, pg. 502.
@@ -1294,6 +1296,8 @@ macro extract_bit(val, bit, result) {
 
 # WSR - Write Special Register, pg. 561.
 :wsr at, u8_8.15 is op2 = 0b0001 & op1 = 0b0011 & u8_8.15 & at & op0 = 0 {
+    local dst:4 =  zext(u8_8.15:1);
+    *[special_register]:4 dst = at;
     wsr(u8_8.15:1, at);
 }
 #:WSR.^sr at is op2=0x1 & op1=0x3 & sr & at & op0=0x0
