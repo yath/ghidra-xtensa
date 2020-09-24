@@ -155,7 +155,7 @@ macro extract_bit(val, bit, result) {
 :bbsi as, u5_4.7_12, srel_16.23 is srel_16.23 & u3_13.15 = 0b111 & as & u5_4.7_12 & op0 = 0b0111 {
     local bval;
     extract_bit(as, u5_4.7_12, bval);
-    if (bval == 0)
+    if (bval != 0)
         goto srel_16.23;
 }
 
