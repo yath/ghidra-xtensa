@@ -1,33 +1,3 @@
-macro pushVal(val32) {
-    local addr:4 = a1;
-    a1 = a1 - 4;
-    *:4 addr = val32;
-}
-
-macro popVal(val32) {
-    local addr:4 = a1;
-    val32  =  *:4 addr;
-    a1 = a1 + 4;
-}
-
-
-macro save() {
-      sa3 = a3;
-      sa4 = a4;
-      sa5 = a5;
-      sa6 = a6;
-      sa7 = a7;                  
-}
-
-macro restore() {
-      a3 = sa3;
-      a4 = sa4;
-      a5 = sa5;
-      a6 = sa6;
-      a7 = sa7;                  
-}
-
-
 ## Windowed Register Option ##
 
 # CALL4 - Call PC-relative, Rotate Window by 4, pg. 298.
@@ -81,8 +51,6 @@ macro restore() {
 }
 
 
-
-
 # CALLX4 - Call Register, Rotate Window by 4, pg. 305.
 :callx4 as is op2 = 0 & op1 = 0 & ar = 0 & as & u2_6.7 = 0b11 & u2_4.5 = 0b01 & op0 = 0 {
     local dst = as;
@@ -120,7 +88,6 @@ macro restore() {
     call [dst];
     a14=o2;
 }
-
 
 
 # L32E - Load 32-bit for Window Exceptions, pg. 376.
