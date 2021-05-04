@@ -1090,9 +1090,8 @@ macro extract_bit(val, bit, result) {
 }
 
 # SLLI - Shift Left Logical Immediate, pg. 525.
-:slli ar, as, u5_4.7_20 is u3_21.23 = 0 & u5_4.7_20 & op1 = 0b0001 & ar & as & op0 = 0 {
-    local sa:1 = 32 - u5_4.7_20;
-    ar = as << sa;
+:slli ar, as, u5_4.7_20_slli is u3_21.23 = 0 & u5_4.7_20_slli & op1 = 0b0001 & ar & as & op0 = 0 {
+    ar = as << u5_4.7_20_slli;
 }
 
 # SRA - Shift Right Arithmetic, pg. 526.

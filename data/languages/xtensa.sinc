@@ -169,6 +169,10 @@ s5_12.15_oex:  tmp is u4_12.15      [ tmp = (2 << u4_12.15) * -1; ] { export *[c
 n_s4_4.7_nozero: tmp is n_u4_4.7 = 0  [ tmp = -1;         ] { export *[const]:4 tmp; }
 n_s4_4.7_nozero: tmp is n_u4_4.7      [ tmp = n_u4_4.7+0; ] { export *[const]:4 tmp; }
 
+# imm stored in sa for slli is 32-shift.
+# TODO why can't we use subtable output for this instead of repeating u5_4.7_20 calc?
+u5_4.7_20_slli: tmp is u1_20 & u4_4.7   [ tmp = 32 - ((u1_20 << 4) | u4_4.7); ] { export *[const]:1 tmp; }
+
 # B4CONST(ar) (Branch Immediate) encodings, pg. 41 f.
 r_b4const: tmp is ar = 0         [ tmp = 0xffffffff; ] { export *[const]:4 tmp; }
 r_b4const: tmp is ar = 1         [ tmp = 0x1; ]        { export *[const]:4 tmp; }
