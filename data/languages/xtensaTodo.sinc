@@ -141,11 +141,29 @@
 
 ## Loop Option ##
 
+macro loopSetup(as, end, doit) {
+    LCOUNT = as - 1;
+    LBEG = inst_next;
+    #LEND = end;
+    if (doit) goto <body>;
+    goto end;
+    <body>
+}
+
 # LOOP - Loop, pg. 392.
-:loop as, urel_16.23 is urel_16.23 & ar = 0b1000 & as & at = 0b0111 & op0 = 0b0110 unimpl
+:loop as, urel_16.23 is urel_16.23 & ar=0b1000 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, 1:1);
+}
 
 # LOOPGTZ - Loop if Greater Than Zero, pg. 394.
-:loopgtz as, urel_16.23 is urel_16.23 & ar = 0b1010 & as & at = 0b0111 & op0 = 0b0110 unimpl
+:loopgtz as, urel_16.23 is urel_16.23 & ar=0b1010 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, as s> 0);
+}
 
 # LOOPNEZ - Loop if Not Equal Zero, pg. 396.
-:loopnez as, urel_16.23 is urel_16.23 & ar = 0b1001 & as & at = 0b0111 & op0 = 0b0110 unimpl
+:loopnez as, urel_16.23 is urel_16.23 & ar=0b1001 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, as != 0);
+}
