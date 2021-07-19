@@ -39,7 +39,7 @@ define register offset=0x2000 size=1 [ sar ];
 
 
 #not all registers are 32Bit but for sake of simplicity they are here
-define special_register offset=0 size=4 [ LBEG LEND LCOUNT SAR BR LITBASE ];
+define special_register offset=0 size=4 [ LBEG LEND LCOUNT OSAR BR LITBASE ];
 define special_register offset=48 size=4 [ SCOMPARE1 ];
 define special_register offset=64 size=4 [ ACCLO ACCHI ];
 define special_register offset=128 size=4 [ M0 M1 M2 M3 ];
@@ -151,7 +151,7 @@ attach variables [ br bs bt ] [
     b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 b13 b14 b15
 ];
 
-attach variables [  u8_8.15 ] [ LBEG LEND LCOUNT SAR BR LITBASE _ _ _ _ _ _ SCOMPARE1 _ _ _ ACCLO ACCHI _ _ _ _ _ _ _ _ _ _ _ _ _ _ M0 M1 M2 M3 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ WindowBase WindowStart _ _ _ _ _ _ _ _ _ PTEVADDR _ _ _ _ _  MMID RASID ITLBCFG DTLBCFG _ _ _ IBREAKENABLE MEMCTL CACHEATTR ATOMCTL _ _ _ _ DDR _ MEPC MEPS MESAVE MESR MECR MEVADDR _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ IBREAKA0 IBREAKA1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ DBREAKA0 DBREAKA1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ DBREAKC0 DBREAKC1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ EPC1 EPC2 EPC3 EPC4 EPC5 EPC6 EPC7 _ _ _ _ _ _ _ _ DEPC _ EPS2 EPS3 EPS4 EPS5 EPS6 EPS7 _ _ _ _ _ _ _ _ _ EXCSAVE1 EXCSAVE2 EXCSAVE3 EXCSAVE4 EXCSAVE5 EXCSAVE6 EXCSAVE7 _ _ _ _ _ _ _ _ CPENABLE INTERRUPT INTSET INTCLEAR INTENABLE _ PS VECBASE EXCCAUSE DEBUGCAUSE CCOUNT PRID ICOUNT ICOUNTLEVEL EXCVADDR _ CCOMPARE0 CCOMPARE1 CCOMPARE2 _ MISC0 MISC1 MISC2 MISC3 _ _ _ _ _ _ _ _ ];
+attach variables [  u8_8.15 ] [ LBEG LEND LCOUNT OSAR BR LITBASE _ _ _ _ _ _ SCOMPARE1 _ _ _ ACCLO ACCHI _ _ _ _ _ _ _ _ _ _ _ _ _ _ M0 M1 M2 M3 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ WindowBase WindowStart _ _ _ _ _ _ _ _ _ PTEVADDR _ _ _ _ _  MMID RASID ITLBCFG DTLBCFG _ _ _ IBREAKENABLE MEMCTL CACHEATTR ATOMCTL _ _ _ _ DDR _ MEPC MEPS MESAVE MESR MECR MEVADDR _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ IBREAKA0 IBREAKA1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ DBREAKA0 DBREAKA1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ DBREAKC0 DBREAKC1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ EPC1 EPC2 EPC3 EPC4 EPC5 EPC6 EPC7 _ _ _ _ _ _ _ _ DEPC _ EPS2 EPS3 EPS4 EPS5 EPS6 EPS7 _ _ _ _ _ _ _ _ _ EXCSAVE1 EXCSAVE2 EXCSAVE3 EXCSAVE4 EXCSAVE5 EXCSAVE6 EXCSAVE7 _ _ _ _ _ _ _ _ CPENABLE INTERRUPT INTSET INTCLEAR INTENABLE _ PS VECBASE EXCCAUSE DEBUGCAUSE CCOUNT PRID ICOUNT ICOUNTLEVEL EXCVADDR _ CCOMPARE0 CCOMPARE1 CCOMPARE2 _ MISC0 MISC1 MISC2 MISC3 _ _ _ _ _ _ _ _ ];
 
 
 # Various 32-bit pointers relative to PC. Any operands that are split across non-consecutive
