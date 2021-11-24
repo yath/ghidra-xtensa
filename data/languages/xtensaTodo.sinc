@@ -1,33 +1,3 @@
-macro pushVal(val32) {
-    local addr:4 = a1;
-    a1 = a1 - 4;
-    *:4 addr = val32;
-}
-
-macro popVal(val32) {
-    local addr:4 = a1;
-    val32  =  *:4 addr;
-    a1 = a1 + 4;
-}
-
-
-macro save() {
-      sa3 = a3;
-      sa4 = a4;
-      sa5 = a5;
-      sa6 = a6;
-      sa7 = a7;                  
-}
-
-macro restore() {
-      a3 = sa3;
-      a4 = sa4;
-      a5 = sa5;
-      a6 = sa6;
-      a7 = sa7;                  
-}
-
-
 ## Windowed Register Option ##
 
 # CALL4 - Call PC-relative, Rotate Window by 4, pg. 298.
@@ -81,8 +51,6 @@ macro restore() {
 }
 
 
-
-
 # CALLX4 - Call Register, Rotate Window by 4, pg. 305.
 :callx4 as is op2 = 0 & op1 = 0 & ar = 0 & as & u2_6.7 = 0b11 & u2_4.5 = 0b01 & op0 = 0 {
     local dst = as;
@@ -120,7 +88,6 @@ macro restore() {
     call [dst];
     a14=o2;
 }
-
 
 
 # L32E - Load 32-bit for Window Exceptions, pg. 376.
@@ -174,11 +141,53 @@ macro restore() {
 
 ## Loop Option ##
 
+macro loopSetup(as, end, doit) {
+    LCOUNT = as - 1;
+    LBEG = inst_next;
+    #LEND = end;
+    if (doit) goto <body>;
+    goto end;
+    <body>
+}
+
 # LOOP - Loop, pg. 392.
-:loop as, urel_16.23 is urel_16.23 & ar = 0b1000 & as & at = 0b0111 & op0 = 0b0110 unimpl
+:loop as, urel_16.23 is urel_16.23 & ar=0b1000 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, 1:1);
+}
 
 # LOOPGTZ - Loop if Greater Than Zero, pg. 394.
-:loopgtz as, urel_16.23 is urel_16.23 & ar = 0b1010 & as & at = 0b0111 & op0 = 0b0110 unimpl
+:loopgtz as, urel_16.23 is urel_16.23 & ar=0b1010 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, as s> 0);
+}
 
 # LOOPNEZ - Loop if Not Equal Zero, pg. 396.
-:loopnez as, urel_16.23 is urel_16.23 & ar = 0b1001 & as & at = 0b0111 & op0 = 0b0110 unimpl
+:loopnez as, urel_16.23 is urel_16.23 & ar=0b1001 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, as != 0);
+}
+
+
+# TODO this produces correct pcode, tho it would be nicer to display the float in disasm as well
+# +0.0 +1.0 +2.0 +0.5
+const.s_imm: tmp is as=0 [ tmp = 0x00000000; ] { export *[const]:4 tmp; }
+const.s_imm: tmp is as=1 [ tmp = 0x3F800000; ] { export *[const]:4 tmp; }
+const.s_imm: tmp is as=2 [ tmp = 0x40000000; ] { export *[const]:4 tmp; }
+const.s_imm: tmp is as=3 [ tmp = 0x3F000000; ] { export *[const]:4 tmp; }
+
+:const.s fr, const.s_imm is op2=0b1111 & op1=0b1010 & fr & const.s_imm & at=0b0011 & op0=0 {
+    fr = float2float(const.s_imm);
+}
+
+
+# Stub out some insns which mainly appear in boilerplate library functions...
+:div0.s fr, fs is op2=0b1111 & op1=0b1010 & fr & fs & at=0b0111 & op0=0 unimpl
+:sqrt0.s fr, fs is op2=0b1111 & op1=0b1010 & fr & fs & at=0b1001 & op0=0 unimpl
+:nexp01.s fr, fs is op2=0b1111 & op1=0b1010 & fr & fs & at=0b1011 & op0=0 unimpl
+:mksadj.s fr, fs is op2=0b1111 & op1=0b1010 & fr & fs & at=0b1100 & op0=0 unimpl
+:mkdadj.s fr, fs is op2=0b1111 & op1=0b1010 & fr & fs & at=0b1101 & op0=0 unimpl
+:addexp.s fr, fs is op2=0b1111 & op1=0b1010 & fr & fs & at=0b1110 & op0=0 unimpl
+:addexpm.s fr, fs is op2=0b1111 & op1=0b1010 & fr & fs & at=0b1111 & op0=0 unimpl
+:maddn.s fr, fs, ft is op2=0b0110 & op1=0b1010 & fr & fs & ft & op0=0 unimpl
+:divn.s fr, fs, ft is op2=0b0111 & op1=0b1010 & fr & fs & ft & op0=0 unimpl

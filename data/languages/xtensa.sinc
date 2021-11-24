@@ -3,17 +3,9 @@ define alignment=1;
 
 define space ram        type=ram_space      size=4  default;
 define space register   type=register_space size=4;
-define space special_register type=ram_space size=4;
-define space save_register   type=ram_space size=4;
 
 # Address registers (AR).
-define save_register offset=0x0000 size=4 [
-    sa0 sa1 sa2 sa3 sa4 sa5 sa6 sa7 sa8 sa9 sa10 sa11 sa12 sa13 sa14 sa15
-];
-
-
-# Address registers (AR).
-define register offset=0x0000 size=4 [
+define register offset=0x8000 size=4 [
     a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15
     i2 i3 i4 i5 i6 i7
     o2 o3 o4 o5 o6 o7
@@ -21,48 +13,45 @@ define register offset=0x0000 size=4 [
 
 # Floating Point registers (FR + FCR (control) + FSR (status)).
 # TODO: FCR and FSR seem unused?
-define register offset=0x0100 size=4 [
+define register offset=0x8100 size=4 [
     f0 f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12 f13 f14 f15
     fcr fsr
 ];
 
 # Boolean registers (BR).
-define register offset=0x0200 size=1 [
+define register offset=0x8200 size=1 [
     b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 b13 b14 b15
 ];
 
 # Program counter.
-define register offset=0x1000 size=4 [ pc ];
-
-# Shift amount register. (TODO: other special registers)
-define register offset=0x2000 size=1 [ sar ];
+define register offset=0x8300 size=4 [ pc ];
 
 
-#not all registers are 32Bit but for sake of simplicity they are here
-define special_register offset=0 size=4 [ LBEG LEND LCOUNT OSAR BR LITBASE ];
-define special_register offset=48 size=4 [ SCOMPARE1 ];
-define special_register offset=64 size=4 [ ACCLO ACCHI ];
-define special_register offset=128 size=4 [ M0 M1 M2 M3 ];
-define special_register offset=288 size=4 [ WindowBase WindowStart ];
-define special_register offset=332 size=4 [ PTEVADDR ];
-define special_register offset=356 size=4 [ MMID RASID ITLBCFG DTLBCFG ];
-define special_register offset=384 size=4 [ IBREAKENABLE ];
-define special_register offset=388 size=4 [ MEMCTL ];
-define special_register offset=392 size=4 [ CACHEATTR ATOMCTL ];
-define special_register offset=416 size=4 [ DDR ];
-define special_register offset=424 size=4 [ MEPC MEPS MESAVE MESR MECR MEVADDR ];
-define special_register offset=512 size=4 [ IBREAKA0 IBREAKA1 ];
-define special_register offset=576 size=4 [ DBREAKA0 DBREAKA1 ];
-define special_register offset=640 size=4 [ DBREAKC0 DBREAKC1 ];
-define special_register offset=708 size=4 [ EPC1 EPC2 EPC3 EPC4 EPC5 EPC6 EPC7 ];
-define special_register offset=768 size=4 [ DEPC ];
-define special_register offset=776 size=4 [ EPS2 EPS3 EPS4 EPS5 EPS6 EPS7 ];
-define special_register offset=836 size=4 [ EXCSAVE1 EXCSAVE2 EXCSAVE3 EXCSAVE4 EXCSAVE5 EXCSAVE6 EXCSAVE7 ];
-define special_register offset=896 size=4 [ CPENABLE ];
-define special_register offset=900 size=4 [ INTERRUPT INTSET INTCLEAR INTENABLE ];# assuming it's a typo in the manual and INTERRUPT has number 225
-define special_register offset=920 size=4 [ PS VECBASE EXCCAUSE DEBUGCAUSE CCOUNT PRID ICOUNT ICOUNTLEVEL EXCVADDR ];
-define special_register offset=960 size=4 [ CCOMPARE0 CCOMPARE1 CCOMPARE2 ];
-define special_register offset=976 size=4 [ MISC0 MISC1 MISC2 MISC3 ];
+# not all registers are 32Bit but for sake of simplicity they are here
+define register offset=0 size=4 [ LBEG LEND LCOUNT SAR BR LITBASE ];
+define register offset=48 size=4 [ SCOMPARE1 ];
+define register offset=64 size=4 [ ACCLO ACCHI ];
+define register offset=128 size=4 [ M0 M1 M2 M3 ];
+define register offset=288 size=4 [ WindowBase WindowStart ];
+define register offset=332 size=4 [ PTEVADDR ];
+define register offset=356 size=4 [ MMID RASID ITLBCFG DTLBCFG ];
+define register offset=384 size=4 [ IBREAKENABLE ];
+define register offset=388 size=4 [ MEMCTL ];
+define register offset=392 size=4 [ CACHEATTR ATOMCTL ];
+define register offset=416 size=4 [ DDR ];
+define register offset=424 size=4 [ MEPC MEPS MESAVE MESR MECR MEVADDR ];
+define register offset=512 size=4 [ IBREAKA0 IBREAKA1 ];
+define register offset=576 size=4 [ DBREAKA0 DBREAKA1 ];
+define register offset=640 size=4 [ DBREAKC0 DBREAKC1 ];
+define register offset=708 size=4 [ EPC1 EPC2 EPC3 EPC4 EPC5 EPC6 EPC7 ];
+define register offset=768 size=4 [ DEPC ];
+define register offset=776 size=4 [ EPS2 EPS3 EPS4 EPS5 EPS6 EPS7 ];
+define register offset=836 size=4 [ EXCSAVE1 EXCSAVE2 EXCSAVE3 EXCSAVE4 EXCSAVE5 EXCSAVE6 EXCSAVE7 ];
+define register offset=896 size=4 [ CPENABLE ];
+define register offset=900 size=4 [ INTERRUPT INTSET INTCLEAR INTENABLE ];
+define register offset=920 size=4 [ PS VECBASE EXCCAUSE DEBUGCAUSE CCOUNT PRID ICOUNT ICOUNTLEVEL EXCVADDR ];
+define register offset=960 size=4 [ CCOMPARE0 CCOMPARE1 CCOMPARE2 ];
+define register offset=976 size=4 [ MISC0 MISC1 MISC2 MISC3 ];
 
 # Regular 24-bit instruction.
 define token insn(24)
@@ -139,6 +128,12 @@ define token narrowinsn(16)
 #	op0_16        = (0,15)
 #;
 
+define register offset=0x8400 size=4 contextreg;
+define context contextreg
+    phase=(0,0)
+    loopEnd=(1,1) noflow
+;
+
 attach variables [ ar as at n_ar n_as n_at ] [
     a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15
 ];
@@ -151,7 +146,7 @@ attach variables [ br bs bt ] [
     b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 b13 b14 b15
 ];
 
-attach variables [  u8_8.15 ] [ LBEG LEND LCOUNT OSAR BR LITBASE _ _ _ _ _ _ SCOMPARE1 _ _ _ ACCLO ACCHI _ _ _ _ _ _ _ _ _ _ _ _ _ _ M0 M1 M2 M3 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ WindowBase WindowStart _ _ _ _ _ _ _ _ _ PTEVADDR _ _ _ _ _  MMID RASID ITLBCFG DTLBCFG _ _ _ IBREAKENABLE MEMCTL CACHEATTR ATOMCTL _ _ _ _ DDR _ MEPC MEPS MESAVE MESR MECR MEVADDR _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ IBREAKA0 IBREAKA1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ DBREAKA0 DBREAKA1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ DBREAKC0 DBREAKC1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ EPC1 EPC2 EPC3 EPC4 EPC5 EPC6 EPC7 _ _ _ _ _ _ _ _ DEPC _ EPS2 EPS3 EPS4 EPS5 EPS6 EPS7 _ _ _ _ _ _ _ _ _ EXCSAVE1 EXCSAVE2 EXCSAVE3 EXCSAVE4 EXCSAVE5 EXCSAVE6 EXCSAVE7 _ _ _ _ _ _ _ _ CPENABLE INTERRUPT INTSET INTCLEAR INTENABLE _ PS VECBASE EXCCAUSE DEBUGCAUSE CCOUNT PRID ICOUNT ICOUNTLEVEL EXCVADDR _ CCOMPARE0 CCOMPARE1 CCOMPARE2 _ MISC0 MISC1 MISC2 MISC3 _ _ _ _ _ _ _ _ ];
+attach variables [  u8_8.15 ] [ LBEG LEND LCOUNT SAR BR LITBASE _ _ _ _ _ _ SCOMPARE1 _ _ _ ACCLO ACCHI _ _ _ _ _ _ _ _ _ _ _ _ _ _ M0 M1 M2 M3 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ WindowBase WindowStart _ _ _ _ _ _ _ _ _ PTEVADDR _ _ _ _ _  MMID RASID ITLBCFG DTLBCFG _ _ _ IBREAKENABLE MEMCTL CACHEATTR ATOMCTL _ _ _ _ DDR _ MEPC MEPS MESAVE MESR MECR MEVADDR _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ IBREAKA0 IBREAKA1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ DBREAKA0 DBREAKA1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ DBREAKC0 DBREAKC1 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ EPC1 EPC2 EPC3 EPC4 EPC5 EPC6 EPC7 _ _ _ _ _ _ _ _ DEPC _ EPS2 EPS3 EPS4 EPS5 EPS6 EPS7 _ _ _ _ _ _ _ _ _ EXCSAVE1 EXCSAVE2 EXCSAVE3 EXCSAVE4 EXCSAVE5 EXCSAVE6 EXCSAVE7 _ _ _ _ _ _ _ _ CPENABLE INTERRUPT INTSET INTCLEAR INTENABLE _ PS VECBASE EXCCAUSE DEBUGCAUSE CCOUNT PRID ICOUNT ICOUNTLEVEL EXCVADDR _ CCOMPARE0 CCOMPARE1 CCOMPARE2 _ MISC0 MISC1 MISC2 MISC3 _ _ _ _ _ _ _ _ ];
 
 
 # Various 32-bit pointers relative to PC. Any operands that are split across non-consecutive
@@ -216,6 +211,10 @@ s5_12.15_oex:  tmp is u4_12.15      [ tmp = (2 << u4_12.15) * -1; ] { export *[c
 # n_u4_4.7 with 0 being -1, used by ADDI.N.
 n_s4_4.7_nozero: tmp is n_u4_4.7 = 0  [ tmp = -1;         ] { export *[const]:4 tmp; }
 n_s4_4.7_nozero: tmp is n_u4_4.7      [ tmp = n_u4_4.7+0; ] { export *[const]:4 tmp; }
+
+# imm stored in sa for slli is 32-shift.
+# TODO why can't we use subtable output for this instead of repeating u5_4.7_20 calc?
+u5_4.7_20_slli: tmp is u1_20 & u4_4.7   [ tmp = 32 - ((u1_20 << 4) | u4_4.7); ] { export *[const]:1 tmp; }
 
 # B4CONST(ar) (Branch Immediate) encodings, pg. 41 f.
 r_b4const: tmp is ar = 0         [ tmp = 0xffffffff; ] { export *[const]:4 tmp; }
