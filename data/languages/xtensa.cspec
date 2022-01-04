@@ -55,16 +55,7 @@
         <pentry minsize="1" maxsize="4" extension="inttype">
           <register name="o2"/>
         </pentry>
-        <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="o3"/>
-        </pentry>
-        <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="o4"/>
-        </pentry>
-        <pentry minsize="1" maxsize="4" extension="inttype">
-          <register name="o5"/>
-        </pentry>
-    </output>
+      </output>
     <returnaddress>
         <register name="a0"/>
     </returnaddress>
