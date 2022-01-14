@@ -1,0 +1,11 @@
+def ghidraDir
+
+if (System.env.GHIDRA_DIR) {
+	ghidraDir = System.env.GHIDRA_DIR
+} else if (project.hasProperty("GHIDRA_DIR")) {
+	ghidraDir = project.getProperty("GHIDRA_DIR")
+} else {
+	throw new GradleException("GHIDRA_DIR is not defined!")
+}
+
+apply from: new File(ghidraDir).getCanonicalPath() + "/support/buildExtension.gradle"
