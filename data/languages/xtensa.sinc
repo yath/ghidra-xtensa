@@ -51,6 +51,13 @@ define register offset=0x8200 size=1 [
 # Program counter.
 define register offset=0x8300 size=4 [ pc ];
 
+
+define register offset=0x8400 size=4 contextreg;
+define context contextreg
+    phase=(0,0)
+    loopEnd=(1,1) noflow
+;
+
 # Regular 24-bit instruction.
 define token insn(24)
     # Named opcode/register fields.
@@ -190,12 +197,6 @@ attach variables [ sr ] [
      _              _           _           _           # 0x3f_
 #    0x...0         0x...4      0x...8      0x...c
 ];
-
-define register offset=0x8400 size=4 contextreg;
-define context contextreg
-    phase=(0,0)
-    loopEnd=(1,1) noflow
-;
 
 attach variables [ ar as at n_ar n_as n_at ] [
     a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15
