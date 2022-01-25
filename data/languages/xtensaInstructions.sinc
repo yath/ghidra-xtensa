@@ -583,6 +583,33 @@ macro extract_bit(val, bit, result) {
     at = licw(as);
 }
 
+macro loopSetup(as, end, doit) {
+    LCOUNT = as - 1;
+    LBEG = inst_next;
+    #LEND = end;
+    if (doit) goto <body>;
+    goto end;
+    <body>
+}
+
+# LOOP - Loop, pg. 392.
+:loop as, urel_16.23 is urel_16.23 & ar=0b1000 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, 1:1);
+}
+
+# LOOPGTZ - Loop if Greater Than Zero, pg. 394.
+:loopgtz as, urel_16.23 is urel_16.23 & ar=0b1010 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, as s> 0);
+}
+
+# LOOPNEZ - Loop if Not Equal Zero, pg. 396.
+:loopnez as, urel_16.23 is urel_16.23 & ar=0b1001 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, as != 0);
+}
+
 # LSI - Load Single Immediate, pg. 398.
 :lsi ft, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0 & as & ft & op0 = 0b0011 {
     local addr:4 = as + zext(u10_16.23_sb2);
