@@ -9,8 +9,9 @@ import ghidra.program.model.listing.Program;
 import ghidra.program.model.mem.Memory;
 import ghidra.program.model.mem.MemoryAccessException;
 import ghidra.util.exception.NotFoundException;
+import ghidra.program.model.reloc.RelocationResult;
 
-public class Xtensa_ElfRelocationHandler extends ElfRelocationHandler {
+public abstract class Xtensa_ElfRelocationHandler extends ElfRelocationHandler {
 
 	@Override
 	public boolean canRelocate(ElfHeader elf) {
@@ -19,16 +20,16 @@ public class Xtensa_ElfRelocationHandler extends ElfRelocationHandler {
 	}
 
 	@Override
-	public void relocate(ElfRelocationContext elfRelocationContext, ElfRelocation relocation, Address relocationAddress)
+	public RelocationResult relocate(ElfRelocationContext elfRelocationContext, ElfRelocation relocation, Address relocationAddress)
 			throws MemoryAccessException, NotFoundException {
 		ElfHeader elf = elfRelocationContext.getElfHeader();
 		if (!canRelocate(elf)) {
-			return;
+			return null;
 		}
 
 		int type=relocation.getType();
 		if (Xtensa_ElfRelocationConstants.R_XTENSA_NONE == type) {
-			return;
+			return null;
 		}
 
 		Program program = elfRelocationContext.getProgram();
@@ -287,6 +288,9 @@ public class Xtensa_ElfRelocationHandler extends ElfRelocationHandler {
 					symbolName, elfRelocationContext.getLog());
 			break;
 		}
+	
+		return null;
+
 	}
 
 }
