@@ -14,13 +14,13 @@
 
 # CALL8 - Call PC-relative, Rotate Window by 8, pg. 300.
 :call8 srel_6.23_sb2 is srel_6.23_sb2 & u2_4.5 = 0b10 & op0 = 0b0101 {
-    #local dst:4 = 
+    #local dst:4 =
     i2=a10;
     i3=a11;
     i4=a12;
     i5=a13;
     i6=a14;
-    i7=a15;    
+    i7=a15;
     a0 = inst_start + 3;
     call srel_6.23_sb2;
     a10=o2;
@@ -44,7 +44,7 @@
     a4=i4;
     a5=i5;
     a6=i6;
-    a7=i7;        
+    a7=i7;
     #as = as + amn;
     WindowBase    = amn;
     a1 = a1 - amn;
@@ -73,10 +73,10 @@
     i4=a12;
     i5=a13;
     i6=a14;
-    i7=a15;        
+    i7=a15;
     a0 = inst_start + 3;
     call [dst];
-    a10=o2;    
+    a10=o2;
 }
 
 # CALLX12 - Call Register, Rotate Window by 12, pg. 308.
@@ -92,7 +92,7 @@
 
 # L32E - Load 32-bit for Window Exceptions, pg. 376.
 :l32e at, as, s5_12.15_oex is op2 = 0 & op1 = 0b1001 & s5_12.15_oex & as & at & op0 = 0 {
-    
+
 }
 
 # MOVSP - Move to Stack Pointer, pg. 427.
