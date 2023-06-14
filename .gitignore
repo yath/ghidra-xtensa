@@ -3,3 +3,6 @@ xtensa.sla
 data/manuals/
 release/
 release.zip
+.gradle/
+build/
+dist/
