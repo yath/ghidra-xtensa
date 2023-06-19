@@ -283,6 +283,7 @@ public class Xtensa_ElfRelocationHandler extends ElfRelocationHandler {
 					symbolName, elfRelocationContext.getLog());
 			return RelocationResult.SKIPPED;
 		}
+
 	}
 
 }
