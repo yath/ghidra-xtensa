@@ -239,6 +239,11 @@ srel_8.23_oex_sb2: rel is u16_8.23 [
     rel = ((inst_start + 3) & ~3) + ((u16_8.23 | 0xffff0000) << 2);
 ] { export *:4 rel; }
 
+# aronsky's Implementation - "might be firmware specific"
+#srel_8.23_oex_sb2: lrel is u16_8.23 [
+#    lrel = 0x9fa000 + 0x40000 + ((u16_8.23 | 0xffff0000) << 2);
+#] { export *:4 lrel; }
+
 # Immediates split across the instruction.
 u5_8.11_20: tmp is u1_20 & u4_8.11  [ tmp = (u1_20 << 4) | u4_8.11; ] { export *[const]:1 tmp; }
 u5_4.7_20:  tmp is u1_20 & u4_4.7   [ tmp = (u1_20 << 4) | u4_4.7;  ] { export *[const]:1 tmp; }
