@@ -3,6 +3,7 @@ define alignment=1;
 
 define space ram        type=ram_space      size=4  default;
 define space register   type=register_space size=4;
+define space save_register   type=ram_space size=4;
 
 # Special registers (SR). Not all are actually 32 bit, but for the sake of
 # simplicity they are here.
@@ -32,12 +33,20 @@ define register offset=0x3c0 size=4 [ CCOMPARE0 CCOMPARE1 CCOMPARE2 ];
 define register offset=0x3d0 size=4 [ MISC0 MISC1 MISC2 MISC3 ];
 
 # Address registers (AR).
+define save_register offset=0x0000 size=4 [
+    sa0 sa1 sa2 sa3 sa4 sa5 sa6 sa7 sa8 sa9 sa10 sa11 sa12 sa13 sa14 sa15
+];
+
+# NOTE: 0xFEEDC0DE64's implementation suggests the offset is 0x0000
+# Address registers (AR).
 define register offset=0x8000 size=4 [
     a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15
     i2 i3 i4 i5 i6 i7
     o2 o3 o4 o5 o6 o7
 ];
 
+
+# NOTE: 0xFEEDC0DE64's implementation suggests the offset is 0x0100
 # Floating Point registers (FR + FCR (control) + FSR (status)).
 # TODO: FCR and FSR seem unused?
 define register offset=0x8100 size=4 [
@@ -45,14 +54,18 @@ define register offset=0x8100 size=4 [
     fcr fsr
 ];
 
+# NOTE: 0xFEEDC0DE64's implementation suggests the offset is 0x0200
 # Boolean registers (BR).
 define register offset=0x8200 size=1 [
     b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 b13 b14 b15
 ];
 
+# NOTE: 0xFEEDC0DE64's implementation suggests the offset is 0x1000
 # Program counter.
 define register offset=0x8300 size=4 [ pc ];
 
+# Shift amount register. (TODO: other special registers)
+# define register offset=0x2000 size=1 [ SAR ];
 
 define register offset=0x8400 size=4 contextreg;
 define context contextreg
@@ -127,6 +140,14 @@ define token narrowinsn(16)
     n_u2_4.5    =  (4,5)
 
 ;
+
+#define token opbyte (8)
+#	op0_8        = (0,7)
+#;	
+
+#define token opword (16)
+#	op0_16        = (0,15)
+#;
 
 attach variables [ sr ] [
 #    0x...0         0x...4      0x...8      0x...c
@@ -373,6 +394,7 @@ define pcodeop rfwu;
 define pcodeop ritlb0;
 define pcodeop ritlb1;
 define pcodeop rsil;
+define pcodeop rsr; # TODO: Map known special registers.
 define pcodeop rsync;
 define pcodeop rur;
 define pcodeop s32c1i;
@@ -386,5 +408,6 @@ define pcodeop waiti;
 define pcodeop wdtlb;
 define pcodeop wer;
 define pcodeop witlb;
+define pcodeop wsr; # TODO: Map known special registers.
 define pcodeop wur;
 define pcodeop xsr;
