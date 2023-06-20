@@ -70,6 +70,7 @@
     </returnaddress>
     <unaffected>
       <register name="a1"/>
+      <register name="a2"/>
       <register name="a3"/>
       <register name="a4"/>
       <register name="a5"/>

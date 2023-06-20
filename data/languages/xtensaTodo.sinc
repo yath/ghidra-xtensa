@@ -173,3 +173,20 @@ const.s_imm: tmp is as=3 [ tmp = 0x3F000000; ] { export *[const]:4 tmp; }
     local tmp:4 = as << shift;
     ar = tmp s>> shift;
 }
+
+# UFLOAT.S - Convert Unsigned Fixed to Single, pg. 550.
+:ufloat.s fr, as, u4_4.7 is op2 = 0b1101 & op1 = 0b1010 & fr & as & u4_4.7 & op0 = 0 {
+    local tmp:8 = zext(as);
+    local f = int2float(tmp);
+    local d = int2float(1:2 << u4_4.7:2);
+    fr = d f/ f;
+}
+
+# SmokelessCPUv2 Implementation
+# UFLOAT.S - Convert Unsigned Fixed to Single, pg. 550.
+#:ufloat.s fr, as, u4_4.7 is op2 = 0b1101 & op1 = 0b1010 & fr & as & u4_4.7 & op0 = 0 {
+#    local tmp:8 = zext(as);
+#    local f = int2float(tmp);
+#    local d = int2float(1:2 << u4_4.7);
+#    fr = f f/ d;
+#}
