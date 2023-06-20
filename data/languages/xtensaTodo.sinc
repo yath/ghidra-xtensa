@@ -169,6 +169,35 @@ macro restore() {
 # FIXME: Add remaining MUL.* opcodes.
 
 
+## Loop Option ##
+
+macro loopSetup(as, end, doit) {
+    LCOUNT = as - 1;
+    LBEG = inst_next;
+    #LEND = end;
+    if (doit) goto <body>;
+    goto end;
+    <body>
+}
+
+# LOOP - Loop, pg. 392.
+:loop as, urel_16.23 is urel_16.23 & ar=0b1000 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, 1:1);
+}
+
+# LOOPGTZ - Loop if Greater Than Zero, pg. 394.
+:loopgtz as, urel_16.23 is urel_16.23 & ar=0b1010 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, as s> 0);
+}
+
+# LOOPNEZ - Loop if Not Equal Zero, pg. 396.
+:loopnez as, urel_16.23 is urel_16.23 & ar=0b1001 & as & at=0b0111 & op0=0b0110
+[loopEnd=1; globalset(urel_16.23, loopEnd);] {
+    loopSetup(as, urel_16.23, as != 0);
+}
+
 # TODO this produces correct pcode, tho it would be nicer to display the float in disasm as well
 # +0.0 +1.0 +2.0 +0.5
 const.s_imm: tmp is as=0 [ tmp = 0x00000000; ] { export *[const]:4 tmp; }

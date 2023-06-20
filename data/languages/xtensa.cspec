@@ -52,6 +52,7 @@
         </pentry>
       </input>
       <output>
+	<!-- Some repos name these registers o2,o3,o4,o5?? Also some repos indicate different values for minsize and maxsize. -->
         <pentry minsize="1" maxsize="4" extension="inttype">
           <register name="o2"/>
         </pentry>
