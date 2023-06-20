@@ -245,6 +245,12 @@ const.s_imm: tmp is as=3 [ tmp = 0x3F000000; ] { export *[const]:4 tmp; }
 #    local sa:1 = 32 - sar;
 #    ar = as << sa;
 #}
+# bvernoux's Implementation
+# SLL - Shift Left Logical, pg. 524.
+#:sll ar, as is op2 = 0b1010 & op1 = 0b0001 & ar & as & at = 0 & op0 = 0 {
+#    local sa = 32 - SAR;
+#    ar = as << sa;
+#}
 
 # SLLI - Shift Left Logical Immediate, pg. 525.
 :slli ar, as, u5_4.7_20_slli is u3_21.23 = 0 & u5_4.7_20_slli & op1 = 0b0001 & ar & as & op0 = 0 {
@@ -255,6 +261,11 @@ const.s_imm: tmp is as=3 [ tmp = 0x3F000000; ] { export *[const]:4 tmp; }
 #:slli ar, as, u5_4.7_20 is u3_21.23 = 0 & u1_20 & u5_4.7_20 & op1 = 0b0001 & ar & as & op0 = 0 {
 #    local sa:1 = 32 - 16 * u1_20 - u5_4.7_20;
 #    ar = as << sa;
+#}
+# bvernoux's Implementation
+# SLLI - Shift Left Logical Immediate, pg. 525.
+#:slli ar, as, u5_4.7_20_slli is u3_21.23 = 0 & u5_4.7_20_slli & op1 = 0b0001 & ar & as & op0 = 0 {
+#    ar = as << u5_4.7_20_slli;
 #}
 
 # SSA8B - Set Shift Amount for BE Byte Shift, pg. 531.
