@@ -26,6 +26,7 @@ Or download a pre-built release and unzip it to `Ghidra/Processors`.
 
 # TODO
 
+* Windowed Register Option
 * MAC16 Option
 * Loop Option
-
+* ESP8266/ESP32 image loaders?

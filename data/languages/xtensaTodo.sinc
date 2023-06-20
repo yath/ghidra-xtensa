@@ -119,7 +119,6 @@ macro restore() {
     a14=o2;
 }
 
-
 # L32E - Load 32-bit for Window Exceptions, pg. 376.
 :l32e at, as, s5_12.15_oex is op2 = 0 & op1 = 0b1001 & s5_12.15_oex & as & at & op0 = 0 {
 

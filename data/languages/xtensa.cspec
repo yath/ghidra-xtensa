@@ -29,6 +29,7 @@
   <default_proto>
     <prototype name="__stdcall" extrapop="0" stackshift="0">
       <input>
+	<!-- Yath calls these a2,a3,a4,etc -->
         <pentry minsize="1" maxsize="4" extension="inttype">
           <register name="i2"/>
         </pentry>
