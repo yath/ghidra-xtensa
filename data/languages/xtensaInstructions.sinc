@@ -1008,7 +1008,7 @@ macro loopSetup(as, end, doit) {
 
 # RFWO - Return from Window Overflow, pg. 492.
 :rfwo is op2 = 0 & op1 = 0 & ar = 0b0011 & as = 0b0100 & at = 0 & op0 = 0 {
-    local tmp:4 = rfw0();
+    local tmp:4 = rfwo();
     return [tmp];
 }
 
