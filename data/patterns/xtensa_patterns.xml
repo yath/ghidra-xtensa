@@ -121,7 +121,6 @@
       <funcstart/>
     </postpatterns>
   </patternpairs>
-
   <patternpairs totalbits="64" postbits="48">
     <prepatterns>
       <data>00001101 11110000</data> <!-- ret.n  //0 filler -->

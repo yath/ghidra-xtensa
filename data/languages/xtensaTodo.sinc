@@ -1,34 +1,5 @@
 # TODO: NEED TO CLEAN/REFACTOR THIS FILE
 
-macro pushVal(val32) {
-    local addr:4 = a1;
-    a1 = a1 - 4;
-    *:4 addr = val32;
-}
-
-macro popVal(val32) {
-    local addr:4 = a1;
-    val32  =  *:4 addr;
-    a1 = a1 + 4;
-}
-
-
-macro save() {
-      sa3 = a3;
-      sa4 = a4;
-      sa5 = a5;
-      sa6 = a6;
-      sa7 = a7;                  
-}
-
-macro restore() {
-      a3 = sa3;
-      a4 = sa4;
-      a5 = sa5;
-      a6 = sa6;
-      a7 = sa7;                  
-}
-
 ## Windowed Register Option ##
 
 # CALL4 - Call PC-relative, Rotate Window by 4, pg. 298.
@@ -153,7 +124,6 @@ macro restore() {
 	#*:4 vAddr = at;
 }
 
-
 ## MAC16 option ##
 
 # LDDEC - Load with Autodecrement, pg. 386.
@@ -166,7 +136,6 @@ macro restore() {
 :mula.aa.* as, at is op2 = 0b0001 & u2_18.19 = 0b01 & ar = 0 & as & at & op0 = 0b0100 unimpl
 
 # FIXME: Add remaining MUL.* opcodes.
-
 
 ## Loop Option ##
 
@@ -207,7 +176,6 @@ const.s_imm: tmp is as=3 [ tmp = 0x3F000000; ] { export *[const]:4 tmp; }
 :const.s fr, const.s_imm is op2=0b1111 & op1=0b1010 & fr & const.s_imm & at=0b0011 & op0=0 {
     fr = float2float(const.s_imm);
 }
-
 
 # Stub out some insns which mainly appear in boilerplate library functions...
 :div0.s fr, fs is op2=0b1111 & op1=0b1010 & fr & fs & at=0b0111 & op0=0 unimpl
