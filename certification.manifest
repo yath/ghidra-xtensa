@@ -9,7 +9,6 @@ data/languages/xtensa.pspec||GHIDRA||||END|
 data/languages/xtensa.sinc||GHIDRA||||END|
 data/languages/xtensa.slaspec||GHIDRA||||END|
 data/languages/xtensaInstructions.sinc||GHIDRA||||END|
-data/languages/xtensaTodo.sinc||GHIDRA||||END|
 data/manuals/xtensa.idx||GHIDRA||||END|
 data/patterns/patternconstraints.xml||GHIDRA||||END|
 data/patterns/xtensa_patterns.xml||GHIDRA||||END|
