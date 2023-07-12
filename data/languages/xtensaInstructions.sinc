@@ -307,11 +307,96 @@ macro extract_bit(val, bit, result) {
     call srel_6.23_sb2;
 }
 
+# CALL4 - Call PC-relative, Rotate Window by 4, pg. 298.
+:call4 srel_6.23_sb2 is srel_6.23_sb2 & u2_4.5 = 0b01 & op0 = 0b0101 {
+    # This isn't correct CPU implementation, but it makes the calling
+    # convention work out reasonably well..
+    local t0 = a0; local t1 = a1; local t2 = a2; local t3 = a3;
+    a0 = inst_next; a2 = a6; a3 = a7;
+    a4 = a8; a5 = a9; a6 = a10; a7 = a11;
+    a8 = a12; a9 = a13; a10 = a14; a11 = a15;
+    call srel_6.23_sb2;
+    a15 = a11; a14 = a10; a13 = a9; a12 = a8;
+    a11 = a7; a10 = a6; a9 = a5; a8 = a4; a7 = a3; a6 = a2;
+    a0 = t0; a1 = t1; a2 = t2; a3 = t3;
+}
+
+# CALL8 - Call PC-relative, Rotate Window by 8, pg. 300.
+:call8 srel_6.23_sb2 is srel_6.23_sb2 & u2_4.5 = 0b10 & op0 = 0b0101 {
+    # This isn't correct CPU implementation, but it makes the calling
+    # convention work out reasonably well..
+    local t0 = a0; local t1 = a1; local t2 = a2; local t3 = a3;
+    local t4 = a4; local t5 = a5; local t6 = a6; local t7 = a7;
+    a0 = inst_next; a2 = a10; a3 = a11; a4 = a12; a5 = a13; a6 = a14; a7 = a15;
+    call srel_6.23_sb2;
+    a15 = a7; a14 = a6; a13 = a5; a12 = a4; a11 = a3; a10 = a2;
+    a0 = t0; a1 = t1; a2 = t2; a3 = t3; a4 = t4; a5 = t5; a6 = t6; a7 = t7;
+}
+
+# CALL12 - Call PC-relative, Rotate Window by 12, pg. 302.
+:call12 srel_6.23_sb2 is srel_6.23_sb2 & u2_4.5 = 0b11 & op0 = 0b0101 {
+    # This isn't correct CPU implementation, but it makes the calling
+    # convention work out reasonably well..
+    local t0 = a0; local t1 = a1; local t2 = a2; local t3 = a3;
+    local t4 = a4; local t5 = a5; local t6 = a6; local t7 = a7;
+    local t8 = a8; local t9 = a9; local t10 = a10; local t11 = a11;
+    a0 = inst_next; a2 = a14; a3 = a15;
+    call srel_6.23_sb2;
+    a15 = a3; a14 = a2;
+    a0 = t0; a1 = t1; a2 = t2; a3 = t3; a4 = t4; a5 = t5; a6 = t6; a7 = t7;
+    a8 = t8; a9 = t9; a10 = t10; a11 = t11;
+}
+
 # CALLX0 - Non-windowed Call Register, pg. 304.
 :callx0 as is op2 = 0 & op1 = 0 & ar = 0 & as & u2_6.7 = 0b11 & u2_4.5 = 0 & op0 = 0 {
     local dst = as;
     a0 = inst_start + 3;
     call [dst];
+}
+
+# CALLX4 - Call Register, Rotate Window by 4, pg. 305.
+:callx4 as is op2 = 0 & op1 = 0 & ar = 0 & as & u2_6.7 = 0b11 & u2_4.5 = 0b01 & op0 = 0 {
+    local dst = as;
+    # This isn't correct CPU implementation, but it makes the calling
+    # convention work out reasonably well..
+    local t0 = a0; local t1 = a1; local t2 = a2; local t3 = a3;
+    a0 = inst_next; a2 = a6; a3 = a7;
+    a4 = a8; a5 = a9; a6 = a10; a7 = a11;
+    a8 = a12; a9 = a13; a10 = a14; a11 = a15;
+    call [dst];
+    a15 = a11; a14 = a10; a13 = a9; a12 = a8;
+    a11 = a7; a10 = a6; a9 = a5; a8 = a4; a7 = a3; a6 = a2;
+    a0 = t0; a1 = t1; a2 = t2; a3 = t3;
+}
+
+
+# CALLX8 - Call Register, Rotate Window by 8, pg. 307.
+:callx8 as is op2 = 0 & op1 = 0 & ar = 0 & as & u2_6.7 = 0b11 & u2_4.5 = 0b10 & op0 = 0 {
+    local dst = as;
+    # This isn't correct CPU implementation, but it makes the calling
+    # convention work out reasonably well..
+    local t0 = a0; local t1 = a1; local t2 = a2; local t3 = a3;
+    local t4 = a4; local t5 = a5; local t6 = a6; local t7 = a7;
+    a0 = inst_next; a2 = a10; a3 = a11; a4 = a12; a5 = a13; a6 = a14; a7 = a15;
+    call [dst];
+    a15 = a7; a14 = a6; a13 = a5; a12 = a4; a11 = a3; a10 = a2;
+    a0 = t0; a1 = t1; a2 = t2; a3 = t3; a4 = t4; a5 = t5; a6 = t6; a7 = t7;
+    a8 = 0x80000000 | (inst_start + 3) & 0x7fffffff;
+}
+
+# CALLX12 - Call Register, Rotate Window by 12, pg. 308.
+:callx12 as is op2 = 0 & op1 = 0 & ar = 0 & as & u2_6.7 = 0b11 & u2_4.5 = 0b11 & op0 = 0 {
+    local dst = as;
+    # This isn't correct CPU implementation, but it makes the calling
+    # convention work out reasonably well..
+    local t0 = a0; local t1 = a1; local t2 = a2; local t3 = a3;
+    local t4 = a4; local t5 = a5; local t6 = a6; local t7 = a7;
+    local t8 = a8; local t9 = a9; local t10 = a10; local t11 = a11;
+    a0 = inst_next; a2 = a14; a3 = a15;
+    call [dst];
+    a15 = a3; a14 = a2;
+    a0 = t0; a1 = t1; a2 = t2; a3 = t3; a4 = t4; a5 = t5; a6 = t6; a7 = t7;
+    a8 = t8; a9 = t9; a10 = t10; a11 = t11;
 }
 
 # CEIL.S - Ceiling Single to Fixed, pg. 311.
@@ -410,6 +495,13 @@ macro extract_bit(val, bit, result) {
 # DSYNC - Load/Store Synchronize, pg. 339.
 :dsync is op2 = 0 & op1 = 0 & ar = 0b0010 & as = 0 & at = 0b0011 & op0 = 0 {
     dsync();
+}
+
+# ENTRY - Subroutine Entry, pg. 340.
+:entry as, u15_12.23_sb3 is u15_12.23_sb3 & as & u2_6.7 = 0b00 & u2_4.5 = 0b11 & op0 = 0b0110 {
+    # This isn't correct CPU implementation, but it makes the calling
+    # convention work out reasonably well..
+    as = as - zext(u15_12.23_sb3 << 3);
 }
 
 # ESYNC - Execute Synchronize, pg. 342.
@@ -957,6 +1049,20 @@ macro loopSetup(as, end, doit) {
 
 # RET.N - Narrow Non-Windowed Return, pg. 479.
 :ret.n is n_ar = 0b1111 & n_as = 0 & n_at = 0 & n_op0 = 0b1101 {
+    return [a0];
+}
+
+# RETW - Windowed Return, pg. 480.
+:retw is op2 = 0 & ar = 0 & as = 0 & at = 0 & u2_18.19 = 0b10 & u2_16.17 = 0b01 & op0 = 0 {
+    # This isn't correct CPU implementation, but it makes the calling
+    # convention work out reasonably well..
+    return [a0];
+}
+
+# RETW.N - Narrow Windowed Return, pg. 482.
+:retw.n is n_ar = 0b1111 & n_as = 0 & n_at = 0b0001 & n_op0 = 0b1101 {
+    # This isn't correct CPU implementation, but it makes the calling
+    # convention work out reasonably well..
     return [a0];
 }
 
