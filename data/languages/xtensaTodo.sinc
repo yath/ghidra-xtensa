@@ -1,14 +1,8 @@
-# L32E - Load 32-bit for Window Exceptions, pg. 376.
-:l32e at, as, s5_12.15_oex is op2 = 0 & op1 = 0b1001 & s5_12.15_oex & as & at & op0 = 0 unimpl
-
 # MOVSP - Move to Stack Pointer, pg. 427.
 :movsp at, as is op2 = 0 & op1 = 0 & ar = 0b0001 & as & at & op0 = 0 unimpl
 
 # ROTW - Rotate Window, pg. 496.
 :rotw s4_4.7 is op2 = 0b0100 & op1 = 0 & ar = 0b1000 & as = 0 & s4_4.7 & op0 = 0 unimpl
-
-# S32E - Store 32-bit for Window Exceptions, pg. 508.
-:s32e at, as, s5_12.15_oex is op2 = 0b0100 & op1 = 0b1001 & s5_12.15_oex & as & at & op0 = 0 unimpl
 
 
 ## MAC16 option ##

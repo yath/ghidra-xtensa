@@ -643,6 +643,12 @@ macro extract_bit(val, bit, result) {
     acquire(addr);
 }
 
+# L32E - Load 32-bit for Window Exceptions, pg. 376.
+:l32e at, as, s5_12.15_oex is op2 = 0 & op1 = 0b1001 & s5_12.15_oex & as & at & op0 = 0 {
+    local addr:4 = as + s5_12.15_oex;
+    at = *:4 addr;
+}
+
 # L32I - Load 32-bit, pg. 378.
 :l32i at, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0010 & as & at & op0 = 0b0010 {
     local addr:4 = as + zext(u10_16.23_sb2);
@@ -1073,7 +1079,7 @@ macro loopSetup(as, end, doit) {
 
 # RFDE _ Return From Double Exception, pg. 485.
 :rfde is op2 = 0 & op1 = 0 & ar = 0b0011 & as =0b0010 & at = 0 & op0 = 0 {
-    rfde();
+      return [DEPC]; # or EPC1 if NDEPC!=1
 }
 
 # RFDO - Return from Debug Operation, pg. 486.
@@ -1083,17 +1089,19 @@ macro loopSetup(as, end, doit) {
 
 # RFE - Return From Exception, pg. 487.
 :rfe is op2 = 0 & op1 = 0 & ar = 0b0011 & as = 0 & at = 0 & op0 = 0 {
-    rfe();
+     return [EPC1];
 }
 
 # RFI - Return from High-Priority Interrupt, pg. 488.
-:rfi u4_8.11 is op2 = 0 & op1 = 0 & ar = 0b0011 & u4_8.11 & at = 0b0001 & op0 = 0 {
-    rfi(u4_8.11:1);
+:rfi u4_8.11 is op2 = 0 & op1 = 0 & ar = 0b0011 & u4_8.11 & epc & eps & at = 0b0001 & op0 = 0 {
+    PS = eps;
+    return [epc];
 }
 
 # RFME - Return from Memory Error, pg. 489.
 :rfme is op2 = 0 & op1 = 0 & ar = 0b0011 & as = 0 & at = 0b0010 & op0 = 0 {
-    rfme();
+    PS = MEPS;
+    return [MEPC];
 }
 
 # RFR - Move FR to AR, pg. 490.
@@ -1108,12 +1116,12 @@ macro loopSetup(as, end, doit) {
 
 # RFWO - Return from Window Overflow, pg. 492.
 :rfwo is op2 = 0 & op1 = 0 & ar = 0b0011 & as = 0b0100 & at = 0 & op0 = 0 {
-    rfwo();
+    return [EPC1];
 }
 
 # RFWU - Return from Window Underflow, pg. 493.
 :rfwu is op2 = 0 & op1 = 0 & ar = 0b0011 & as = 0b0101 & at = 0 & op0 = 0 {
-    rfwu();
+    return [EPC1];
 }
 
 # RITLB0 - Read Instruction TLB Virtual Entry, pg. 494.
@@ -1169,6 +1177,12 @@ macro loopSetup(as, end, doit) {
 :s32c1i at, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b1110 & as & at & op0 = 0b0010 {
     local addr:4 = as + zext(u10_16.23_sb2);
     at = s32c1i(addr);
+}
+
+# S32E - Store 32-bit for Window Exceptions, pg. 508.
+:s32e at, as, s5_12.15_oex is op2 = 0b0100 & op1 = 0b1001 & s5_12.15_oex & as & at & op0 = 0 {
+    local addr:4 = as + s5_12.15_oex;
+    *:4 addr = at;
 }
 
 # S32I - Store 32-bit, pg. 510.
@@ -1435,3 +1449,6 @@ macro loopSetup(as, end, doit) {
 :xsr at, u8_8.15 is op2 = 0b0110 & op1 = 0b0001 & u8_8.15 & at & op0 = 0 {
     at = xsr(u8_8.15:1, at);
 }
+
+# UNKNOWN - I see these opcodes and defining them lets disassembly proceed..
+:unknown is (op2=0|op2=0xe|op2=0xf) & op1 = 0b1011 & op0 = 0 {} # FP1 Format RRR
