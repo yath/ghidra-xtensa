@@ -58,6 +58,9 @@ define context contextreg
     loopEnd=(1,1) noflow
 ;
 
+# Made-up analog to SAR for left shift.
+define register offset=0x8500 size=4 SLAR;
+
 # Regular 24-bit instruction.
 define token insn(24)
     # Named opcode/register fields.
@@ -249,6 +252,7 @@ u5_4.7_20:  tmp is u1_20 & u4_4.7   [ tmp = (u1_20 << 4) | u4_4.7;  ] { export *
 u5_8.11_16: tmp is u1_16 & u4_8.11  [ tmp = (u1_16 << 4) | u4_8.11; ] { export *[const]:1 tmp; }
 u5_4.7_12:  tmp is u1_12 & u4_4.7   [ tmp = (u1_12 << 4) | u4_4.7;  ] { export *[const]:1 tmp; }
 u32_8.11_4: tmp is u1_4 & u4_8.11   [ tmp = (u1_4  << 4) | u4_8.11; ] { export *[const]:4 tmp; }
+u32_8.11_4_32minus: tmp is u1_4 & u4_8.11 [ tmp = 32-((u1_4  << 4)|u4_8.11); ] { export *[const]:4 tmp; }
 
 # Signed 12-bit (extended to 16) immediate, used by MOVI.
 s16_16.23_8.11: tmp is s4_8.11 & u8_16.23 [
