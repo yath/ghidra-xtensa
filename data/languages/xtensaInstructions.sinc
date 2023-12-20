@@ -428,68 +428,68 @@ macro extract_bit(val, bit, result) {
 }
 
 # DHI - Data Cache Hit Invalidate, pg. 313.
-:dhi as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0b0110 & op0 = 0b0010 {
-    dhi(as + zext(u10_16.23_sb2));
+:dhi as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0b0110 & op0 = 0b0010 {
+    dhi(as + u32_16.23_sb2);
 }
 
 # DHU - Data Cache Hit Unlock, pg. 315.
-:dhu as, u8_20.23_sb4 is u8_20.23_sb4 & op1 = 0b0010 & ar = 0b0111 & as & at = 0b1000 & op0 = 0b0010 {
-    dhu(as + zext(u8_20.23_sb4));
+:dhu as, u32_20.23_sb4 is u32_20.23_sb4 & op1 = 0b0010 & ar = 0b0111 & as & at = 0b1000 & op0 = 0b0010 {
+    dhu(as + u32_20.23_sb4);
 }
 
 # DHWB - Data Cache Hit Writeback, pg. 317.
-:dhwb as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0b0100 & op0 = 0b0010 {
-    dhwb(as + zext(u10_16.23_sb2));
+:dhwb as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0b0100 & op0 = 0b0010 {
+    dhwb(as + u32_16.23_sb2);
 }
 
 # DHWBI - Data Cache Hit Writeback Invalidate, pg. 319.
-:dhwbi as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0b0101 & op0 = 0b0010 {
-    dhwbi(as + zext(u10_16.23_sb2));
+:dhwbi as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0b0101 & op0 = 0b0010 {
+    dhwbi(as + u32_16.23_sb2);
 }
 
 # DII - Data Cache Index Invalidate, pg. 321.
-:dii as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0b0111 & op0 = 0b0010 {
-    dii(as + zext(u10_16.23_sb2));
+:dii as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0b0111 & op0 = 0b0010 {
+    dii(as + u32_16.23_sb2);
 }
 
 # DIU - Data Cache Index Unlock, pg. 323.
-:diu as, u8_20.23_sb4 is u8_20.23_sb4 & op1 = 0b0011 & ar = 0b0111 & as & at = 0b1000 & op0 = 0b0010 {
-    diu(as + zext(u8_20.23_sb4));
+:diu as, u32_20.23_sb4 is u32_20.23_sb4 & op1 = 0b0011 & ar = 0b0111 & as & at = 0b1000 & op0 = 0b0010 {
+    diu(as + u32_20.23_sb4);
 }
 
 # DIWB - Data Cache Index Write Back, pg. 325.
-:diwb as, u8_20.23_sb4 is u8_20.23_sb4 & op1 = 0b0100 & ar = 0b0111 & as & at = 0b1000 & op0 = 0b0010 {
-    diwb(as + zext(u8_20.23_sb4));
+:diwb as, u32_20.23_sb4 is u32_20.23_sb4 & op1 = 0b0100 & ar = 0b0111 & as & at = 0b1000 & op0 = 0b0010 {
+    diwb(as + u32_20.23_sb4);
 }
 
 # DIWBI - Data Cache Index Write Back Invalidate, pg. 327.
-:diwbi as, u8_20.23_sb4 is u8_20.23_sb4 & op1 = 0b0101 & ar = 0b0111 & as & at = 0b1000 & op0 = 0b0010 {
-    diwbi(as + zext(u8_20.23_sb4));
+:diwbi as, u32_20.23_sb4 is u32_20.23_sb4 & op1 = 0b0101 & ar = 0b0111 & as & at = 0b1000 & op0 = 0b0010 {
+    diwbi(as + u32_20.23_sb4);
 }
 
 # DPFL - Data Cache Prefetch and Lock, pg. 329.
-:dpfl as, u8_20.23_sb4 is u8_20.23_sb4 & op1 = 0 & ar = 0b0111 & as & at = 0b1000 & op0 = 0b0010 {
-    dpfl(as + zext(u8_20.23_sb4));
+:dpfl as, u32_20.23_sb4 is u32_20.23_sb4 & op1 = 0 & ar = 0b0111 & as & at = 0b1000 & op0 = 0b0010 {
+    dpfl(as + u32_20.23_sb4);
 }
 
 # DPFR - Data Cache Prefetch for Read, pg. 331.
-:dpfr as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0 & op0 = 0b0010 {
-    dpfr(as + zext(u10_16.23_sb2));
+:dpfr as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0 & op0 = 0b0010 {
+    dpfr(as + u32_16.23_sb2);
 }
 
 # DPFRO - Data Cache Prefetch for Read Once, pg. 333.
-:dpfro as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0b0010 & op0 = 0b0010 {
-    dpfro(as + zext(u10_16.23_sb2));
+:dpfro as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0b0010 & op0 = 0b0010 {
+    dpfro(as + u32_16.23_sb2);
 }
 
 # DPFW - Data Cache Prefetch for Write, pg. 335.
-:dpfw as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0b0001 & op0 = 0b0010 {
-    dpfw(as + zext(u10_16.23_sb2));
+:dpfw as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0b0001 & op0 = 0b0010 {
+    dpfw(as + u32_16.23_sb2);
 }
 
 # DPFWO - Data Cache Prefetch for Write Once, pg. 337.
-:dpfwo as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0b0011 & op0 = 0b0010 {
-    dpfwo(as + zext(u10_16.23_sb2));
+:dpfwo as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0b0011 & op0 = 0b0010 {
+    dpfwo(as + u32_16.23_sb2);
 }
 
 # DSYNC - Load/Store Synchronize, pg. 339.
@@ -498,10 +498,10 @@ macro extract_bit(val, bit, result) {
 }
 
 # ENTRY - Subroutine Entry, pg. 340.
-:entry as, u15_12.23_sb3 is u15_12.23_sb3 & as & u2_6.7 = 0b00 & u2_4.5 = 0b11 & op0 = 0b0110 {
+:entry as, u32_12.23_sb3 is u32_12.23_sb3 & u12_12.23 & as & u2_6.7 = 0b00 & u2_4.5 = 0b11 & op0 = 0b0110 {
     # This isn't correct CPU implementation, but it makes the calling
     # convention work out reasonably well..
-    as = as - zext(u15_12.23_sb3 << 3);
+    as = as - u32_12.23_sb3;
 }
 
 # ESYNC - Execute Synchronize, pg. 342.
@@ -545,18 +545,18 @@ macro extract_bit(val, bit, result) {
 }
 
 # IHI - Instruction Cache Hit Invalidate, pg. 349.
-:ihi as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0b1110 & op0 = 0b0010 {
-    ihi(as + zext(u10_16.23_sb2));
+:ihi as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0b1110 & op0 = 0b0010 {
+    ihi(as + u32_16.23_sb2);
 }
 
 # IHU - Instruction Cache Hit Unlock, pg. 351.
-:ihu as, u8_20.23_sb4 is u8_20.23_sb4 & op1 = 0b0010 & ar = 0b0111 & as & at = 0b1101 & op0 = 0b0010 {
-    ihu(as + zext(u8_20.23_sb4));
+:ihu as, u32_20.23_sb4 is u32_20.23_sb4 & op1 = 0b0010 & ar = 0b0111 & as & at = 0b1101 & op0 = 0b0010 {
+    ihu(as + u32_20.23_sb4);
 }
 
 # III - Instruction Cache Index Invalidate, pg. 353.
-:iii as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0b1111 & op0 = 0b0010 {
-    iii(as + zext(u10_16.23_sb2));
+:iii as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0b1111 & op0 = 0b0010 {
+    iii(as + u32_16.23_sb2);
 }
 
 # IITLB - Invalidate Instruction TLB Entry, pg. 355.
@@ -565,8 +565,8 @@ macro extract_bit(val, bit, result) {
 }
 
 # IIU - Instruction Cache Index Unlock, pg. 356.
-:iiu as, u8_20.23_sb4 is u8_20.23_sb4 & op1 = 0b0011 & ar = 0b0111 & as & at = 0b1101 & op0 = 0b0010 {
-    iiu(as + zext(u8_20.23_sb4));
+:iiu as, u32_20.23_sb4 is u32_20.23_sb4 & op1 = 0b0011 & ar = 0b0111 & as & at = 0b1101 & op0 = 0b0010 {
+    iiu(as + u32_20.23_sb4);
 }
 
 # ILL - Illegal Instruction, pg. 358.
@@ -582,13 +582,13 @@ macro extract_bit(val, bit, result) {
 }
 
 # IPF - Instruction Cache Prefetch, pg. 360.
-:ipf as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0111 & as & at = 0b1100 & op0 = 0b0010 {
-    ipf(as + zext(u10_16.23_sb2));
+:ipf as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0111 & as & at = 0b1100 & op0 = 0b0010 {
+    ipf(as + u32_16.23_sb2);
 }
 
 # IPFL - Instruction Cache Prefetch and Lock, pg. 362.
-:ipfl as, u8_20.23_sb4 is u8_20.23_sb4 & op1 = 0 & ar = 0b0111 & as & at = 0b1101 & op0 = 0b0010 {
-    ipfl(as + zext(u8_20.23_sb4));
+:ipfl as, u32_20.23_sb4 is u32_20.23_sb4 & op1 = 0 & ar = 0b0111 & as & at = 0b1101 & op0 = 0b0010 {
+    ipfl(as + u32_20.23_sb4);
 }
 
 # ISYNC - Instruction Fetch Synchronize, pg. 364.
@@ -620,25 +620,25 @@ macro extract_bit(val, bit, result) {
 
 # L8UI - Load 8-bit Unsigned, pg. 369.
 :l8ui at, as, u8_16.23 is u8_16.23 & ar = 0 & as & at & op0 = 0b0010 {
-    local addr:4 = as + zext(u8_16.23:1);
+    local addr:4 = as + u8_16.23:4;
     at = zext(*:1 addr);
 }
 
 # L16SI - Load 16-bit Signed, pg. 370.
-:l16si at, as, u9_16.23_sb1 is u9_16.23_sb1 & ar = 0b1001 & as & at & op0 = 0b0010 {
-    local addr:4 = as + zext(u9_16.23_sb1);
+:l16si at, as, u32_16.23_sb1 is u32_16.23_sb1 & ar = 0b1001 & as & at & op0 = 0b0010 {
+    local addr:4 = as + u32_16.23_sb1;
     at = sext(*:2 addr);
 }
 
 # L16UI - Load 16-bit Unsigned, pg. 372.
-:l16ui at, as, u9_16.23_sb1 is u9_16.23_sb1 & ar = 0b001 & as & at & op0 = 0b0010 {
-    local addr:4 = as + zext(u9_16.23_sb1);
+:l16ui at, as, u32_16.23_sb1 is u32_16.23_sb1 & ar = 0b001 & as & at & op0 = 0b0010 {
+    local addr:4 = as + u32_16.23_sb1;
     at = zext(*:2 addr);
 }
 
 # L32AI - Load 32-bit Acquire, pg. 374.
-:l32ai at, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b1011 & as & at & op0 = 0b0010 {
-    local addr:4 = as + zext(u10_16.23_sb2);
+:l32ai at, as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b1011 & as & at & op0 = 0b0010 {
+    local addr:4 = as + u32_16.23_sb2;
     at = *:4 addr;
     acquire(addr);
 }
@@ -650,14 +650,14 @@ macro extract_bit(val, bit, result) {
 }
 
 # L32I - Load 32-bit, pg. 378.
-:l32i at, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0010 & as & at & op0 = 0b0010 {
-    local addr:4 = as + zext(u10_16.23_sb2);
+:l32i at, as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0010 & as & at & op0 = 0b0010 {
+    local addr:4 = as + u32_16.23_sb2;
     at = *:4 addr;
 }
 
 # L32I.N - Narrow Load 32-bit, pg. 380.
-:l32i.n n_at, n_as, n_u6_12.15_sb2 is n_u6_12.15_sb2 & n_as & n_at & n_op0 = 0b1000 {
-    local addr:4 = n_as + zext(n_u6_12.15_sb2);
+:l32i.n n_at, n_as, n_u32_12.15_sb2 is n_u32_12.15_sb2 & n_as & n_at & n_op0 = 0b1000 {
+    local addr:4 = n_as + n_u32_12.15_sb2;
     n_at = *:4 addr;
 }
 
@@ -709,14 +709,14 @@ macro loopSetup(as, end, doit) {
 }
 
 # LSI - Load Single Immediate, pg. 398.
-:lsi ft, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0 & as & ft & op0 = 0b0011 {
-    local addr:4 = as + zext(u10_16.23_sb2);
+:lsi ft, as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0 & as & ft & op0 = 0b0011 {
+    local addr:4 = as + u32_16.23_sb2;
     ft = *:4 addr;
 }
 
 # LSIU - Load Single Immediate with Update, pg. 400.
-:lsiu ft, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b1000 & as & ft & op0 = 0b0011 {
-    local addr:4 = as + zext(u10_16.23_sb2);
+:lsiu ft, as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b1000 & as & ft & op0 = 0b0011 {
+    local addr:4 = as + u32_16.23_sb2;
     ft = *:4 addr;
     as = addr;
 }
@@ -1163,19 +1163,19 @@ macro loopSetup(as, end, doit) {
 
 # S8I - Store 8-bit, pg. 504.
 :s8i at, as, u8_16.23 is u8_16.23 & ar = 0b0100 & as & at & op0 = 0b0010 {
-    local addr:4 = as + zext(u8_16.23:1);
+    local addr:4 = as + u8_16.23:4;
     *:1 addr = at:1;
 }
 
 # S16I - Store 16-bit, pg. 505.
-:s16i at, as, u9_16.23_sb1 is u9_16.23_sb1 & ar = 0b0101 & as & at & op0 = 0b0010 {
-    local addr:4 = as + zext(u9_16.23_sb1);
+:s16i at, as, u32_16.23_sb1 is u32_16.23_sb1 & ar = 0b0101 & as & at & op0 = 0b0010 {
+    local addr:4 = as + u32_16.23_sb1;
     *:2 addr = at:2;
 }
 
 # S32C1I - Store 32-bit Compare Conditional, pg. 506
-:s32c1i at, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b1110 & as & at & op0 = 0b0010 {
-    local addr:4 = as + zext(u10_16.23_sb2);
+:s32c1i at, as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b1110 & as & at & op0 = 0b0010 {
+    local addr:4 = as + u32_16.23_sb2;
     at = s32c1i(addr);
 }
 
@@ -1186,20 +1186,20 @@ macro loopSetup(as, end, doit) {
 }
 
 # S32I - Store 32-bit, pg. 510.
-:s32i at, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0110 & as & at & op0 = 0b0010 {
-    local addr:4 = as + zext(u10_16.23_sb2);
+:s32i at, as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0110 & as & at & op0 = 0b0010 {
+    local addr:4 = as + u32_16.23_sb2;
     *:4 addr = at;
 }
 
 # S32I.N - Narrow Store 32-bit, pg. 512.
-:s32i.n n_at, n_as, n_u6_12.15_sb2 is n_u6_12.15_sb2 & n_as & n_at & n_op0 = 0b1001 {
-    local addr:4 = n_as + zext(n_u6_12.15_sb2);
+:s32i.n n_at, n_as, n_u32_12.15_sb2 is n_u32_12.15_sb2 & n_as & n_at & n_op0 = 0b1001 {
+    local addr:4 = n_as + n_u32_12.15_sb2;
     *:4 addr = n_at;
 }
 
 # S32RI - Store 32-bit Release, pg. 514.
-:s32ri at, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b1111 & as & at & op0 = 0b0010 {
-    local addr:4 = as + zext(u10_16.23_sb2);
+:s32ri at, as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b1111 & as & at & op0 = 0b0010 {
+    local addr:4 = as + u32_16.23_sb2;
     *:4 addr = at;
     release(addr);
 }
@@ -1210,10 +1210,18 @@ macro loopSetup(as, end, doit) {
 }
 
 # SEXT - Sign Extend, pg. 518.
-:sext ar, as, u5_4.7_plus7 is op2 = 0b0010 & op1 = 0b0011 & ar & as & u5_4.7_plus7 & op0 = 0 {
-    local shift:1 = 31:1 - u5_4.7_plus7;
-    local tmp:4 = as << shift;
-    ar = tmp s>> shift;
+:sext ar, as, u5_4.7_plus7 is op2 = 0b0010 & op1 = 0b0011 & ar & as & u5_4.7_plus7 & u5_4.7_23minus & op0 = 0 {
+    local tmp:4 = as << u5_4.7_23minus;
+    ar = tmp s>> u5_4.7_23minus;
+}
+:sext ar, as, 7 is op2 = 0b0010 & op1 = 0b0011 & ar & as & u4_4.7 = 0 & op0 = 0 {
+    ar = sext(as:1);
+}
+:sext ar, as, 15 is op2 = 0b0010 & op1 = 0b0011 & ar & as & u4_4.7 = 8 & op0 = 0 {
+    ar = sext(as:2);
+}
+:sext ar, as, 23 is op2 = 0b0010 & op1 = 0b0011 & ar & as & u4_4.7 = 12 & op0 = 0 {
+    ar = sext(as:3);
 }
 
 # SICT - Store Instruction Cache Tag, pg. 519.
@@ -1283,19 +1291,19 @@ macro loopSetup(as, end, doit) {
 }
 
 # SSAI - Set Shift Amount Immediate, pg. 533.
-:ssai u5_8.11_4 is op2 = 0b0100 & op1 = 0 & ar = 0b0100 & u5_8.11_4 & u3_5.7 = 0 & op0 = 0 {
-    SAR = zext(u5_8.11_4);
+:ssai u32_8.11_4 is op2 = 0b0100 & op1 = 0 & ar = 0b0100 & u32_8.11_4 & u3_5.7 = 0 & op0 = 0 {
+    SAR = u32_8.11_4;
 }
 
 # SSI - Store Single Immediate, pg. 534.
-:ssi ft, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b0100 & as & ft & op0 = 0b0011 {
-    local addr:4 = as + zext(u10_16.23_sb2);
+:ssi ft, as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b0100 & as & ft & op0 = 0b0011 {
+    local addr:4 = as + u32_16.23_sb2;
     *:4 addr = ft;
 }
 
 # SSIU - Store Single Immediate with Update, pg. 536.
-:ssiu ft, as, u10_16.23_sb2 is u10_16.23_sb2 & ar = 0b1100 & as & ft & op0 = 0b0011 {
-    local addr:4 = as + zext(u10_16.23_sb2);
+:ssiu ft, as, u32_16.23_sb2 is u32_16.23_sb2 & ar = 0b1100 & as & ft & op0 = 0b0011 {
+    local addr:4 = as + u32_16.23_sb2;
     *:4 addr = ft;
     as = addr;
 }
@@ -1451,4 +1459,5 @@ macro loopSetup(as, end, doit) {
 }
 
 # UNKNOWN - I see these opcodes and defining them lets disassembly proceed..
-:unknown is (op2=0|op2=0xe|op2=0xf) & op1 = 0b1011 & op0 = 0 {} # FP1 Format RRR
+:unknown is (op2=0|op2=0xe|op2=0xf) & op1 = 0b1011 & op0 = 0 { unknown(); } # FP1 Format RRR
+:unknown is op2=0x3 & op1=0b1010 & op0 = 0 { unknown(); } # FP1 Format RRR
