@@ -5,6 +5,8 @@
 Requires Ghidra 10.3
 Includes changes from https://github.com/dynacylabs/ghidra-xtensa
 
+NOTE! Ghidra Version 11.0 now includes Xtensa support, so this repo is not needed.
+
 # Installation
 
 ```
