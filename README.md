@@ -2,11 +2,14 @@
 
 ![Screenshot](/screenshot.png?raw=true)
 
+Requires Ghidra 10.3
+Includes changes from https://github.com/dynacylabs/ghidra-xtensa
+
 # Installation
 
 ```
 $ cd $(GHIDRA_INSTALL_DIR)/Ghidra/Processors
-$ git clone  https://github.com/austinc3030/ghidra-xtensa Xtensa
+$ git clone  https://github.com/Ebiroll/ghidra-xtensa Xtensa
 $ cd Xtensa
 $ make
 $
