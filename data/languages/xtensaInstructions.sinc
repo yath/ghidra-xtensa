@@ -1147,7 +1147,7 @@ macro loopSetup(as, end, doit) {
 
 # RSR - Read Special Register, pg. 500.
 :rsr at, sr is op0 = 0 & op1 = 0b0011 & sr & at & op0 = 0 {
-    local src:4 =  zext(sr);
+    local src:4 =  sr;
     at = *[register]:4 src;
 }
 
