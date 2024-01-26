@@ -58,6 +58,9 @@ define context contextreg
     loopEnd=(1,1) noflow
 ;
 
+# Made-up analog to SAR for left shift.
+define register offset=0x8500 size=4 SLAR;
+
 # Regular 24-bit instruction.
 define token insn(24)
     # Named opcode/register fields.
@@ -68,6 +71,8 @@ define token insn(24)
     as     = (8,11)
     fs     = (8,11)
     bs     = (8,11)
+    epc    = (8,11)
+    eps    = (8,11)
     sr     = (8,15)
     at     = (4,7)
     ft     = (4,7)
@@ -210,6 +215,13 @@ attach variables [ br bs bt ] [
     b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 b13 b14 b15
 ];
 
+attach variables [ epc ] [
+    _ EPC1 EPC2 EPC3 EPC4 EPC5 EPC6 EPC7 _ _ _ _ _ _ _ _
+];
+attach variables [ eps ] [
+    _ _ EPS2 EPS3 EPS4 EPS5 EPS6 EPS7 _ _ _ _ _ _ _ _
+];
+
 # Various 32-bit pointers relative to PC. Any operands that are split across non-consecutive
 # bits are named foo_LL.LM_ML.MM, where LL is the least significant bits of the least
 # singificant operand half, LM the most significant bits of the least significant operand half, etc.
@@ -236,10 +248,11 @@ srel_8.23_oex_sb2: rel is u16_8.23 [
 
 # Immediates split across the instruction.
 u5_8.11_20: tmp is u1_20 & u4_8.11  [ tmp = (u1_20 << 4) | u4_8.11; ] { export *[const]:1 tmp; }
-u5_4.7_20:  tmp is u1_20 & u4_4.7   [ tmp = (u1_20 << 4) | u4_4.7;  ] { export *[const]:1 tmp; }
+#u5_4.7_20:  tmp is u1_20 & u4_4.7   [ tmp = (u1_20 << 4) | u4_4.7;  ] { export *[const]:1 tmp; }
 u5_8.11_16: tmp is u1_16 & u4_8.11  [ tmp = (u1_16 << 4) | u4_8.11; ] { export *[const]:1 tmp; }
 u5_4.7_12:  tmp is u1_12 & u4_4.7   [ tmp = (u1_12 << 4) | u4_4.7;  ] { export *[const]:1 tmp; }
-u5_8.11_4:  tmp is u1_4 & u4_8.11   [ tmp = (u1_4  << 4) | u4_8.11; ] { export *[const]:1 tmp; }
+u32_8.11_4: tmp is u1_4 & u4_8.11   [ tmp = (u1_4  << 4) | u4_8.11; ] { export *[const]:4 tmp; }
+u32_8.11_4_32minus: tmp is u1_4 & u4_8.11 [ tmp = 32-((u1_4  << 4)|u4_8.11); ] { export *[const]:4 tmp; }
 
 # Signed 12-bit (extended to 16) immediate, used by MOVI.
 s16_16.23_8.11: tmp is s4_8.11 & u8_16.23 [
@@ -254,18 +267,18 @@ n_s8_12.15_4.6_asymm: tmp is n_s3_4.6 & n_s4_12.15 [
 
 # Immediates shifted or with offset.
 s16_16.23_sb8:  tmp is s8_16.23     [ tmp = s8_16.23  << 8; ] { export *[const]:2 tmp; }
-u15_12.23_sb3:  tmp is u12_12.23    [ tmp = u12_12.23 << 3; ] { export *[const]:2 tmp; }
-u10_16.23_sb2:  tmp is u8_16.23     [ tmp = u8_16.23  << 2; ] { export *[const]:2 tmp; }
-u9_16.23_sb1:   tmp is u8_16.23     [ tmp = u8_16.23  << 1; ] { export *[const]:2 tmp; }
+u32_12.23_sb3:  tmp is u12_12.23    [ tmp = u12_12.23 << 3; ] { export *[const]:4 tmp; }
+u32_16.23_sb2:  tmp is u8_16.23     [ tmp = u8_16.23  << 2; ] { export *[const]:4 tmp; }
+u32_16.23_sb1:  tmp is u8_16.23     [ tmp = u8_16.23  << 1; ] { export *[const]:4 tmp; }
 u5_20.23_plus1: tmp is u4_20.23     [ tmp = u4_20.23   + 1; ] { export *[const]:1 tmp; }
-u8_20.23_sb4:   tmp is u4_20.23     [ tmp = u4_20.23  << 4; ] { export *[const]:1 tmp; }
+u32_20.23_sb4:  tmp is u4_20.23     [ tmp = u4_20.23  << 4; ] { export *[const]:4 tmp; }
 u5_4.7_plus7:   tmp is u4_4.7       [ tmp = u4_4.7     + 7; ] { export *[const]:1 tmp; }
+u5_4.7_23minus: tmp is u4_4.7       [ tmp = 23 - u4_4.7;    ] { export *[const]:1 tmp; }
 
-n_u6_12.15_sb2: tmp is n_u4_12.15  [ tmp = n_u4_12.15 << 2; ] { export *[const]:1 tmp; }
+n_u32_12.15_sb2: tmp is n_u4_12.15  [ tmp = n_u4_12.15 << 2; ] { export *[const]:4 tmp; }
 
-# One-extended. FIXME: Verify this. Only used by [LS]32E (window extension), which aren’t yet
-# implemented.
-s5_12.15_oex:  tmp is u4_12.15      [ tmp = (2 << u4_12.15) * -1; ] { export *[const]:2 tmp; }
+# One-extended. Only used by [LS]32E (window extension)
+s5_12.15_oex:  tmp is u4_12.15      [ tmp = ~0x3f | (u4_12.15 << 2); ] { export *[const]:4 tmp; }
 
 # Some 4-bit immediates with mappings that can’t be (easily) expressed in a single disassembly action.
 
@@ -353,14 +366,8 @@ define pcodeop rdtlb0;
 define pcodeop rdtlb1;
 define pcodeop rer;
 define pcodeop rfdd;
-define pcodeop rfde;
 define pcodeop rfdo;
-define pcodeop rfe;
-define pcodeop rfi;
-define pcodeop rfme;
 define pcodeop rfue;
-define pcodeop rfwo;
-define pcodeop rfwu;
 define pcodeop ritlb0;
 define pcodeop ritlb1;
 define pcodeop rsil;
@@ -379,3 +386,4 @@ define pcodeop wer;
 define pcodeop witlb;
 define pcodeop wur;
 define pcodeop xsr;
+define pcodeop unknown;
